@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Treva Ecosystem</title>
+
+    <link rel="stylesheet" href="style1.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Courier+Prime&family=Merriweather:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()">
+    <span class="theme-track">
+        <span class="sun">☀</span>
+        <span class="moon">☾</span>
+        <span class="theme-knob"></span>
+    </span>
+</button>
+
+
+<main class="page">
+
+    <div class="paper-card">
+
+        <!-- BRAND -->
+        <div class="brand">
+            <p class="eyebrow">TREVA ECOSYSTEM</p>
+            <h1>Teacher's Page</h1>
+            <p class="subtitle">A quiet place for your academic work.</p>
+        </div>
+
+        <div class="double-rule"></div>
+
+
+        <!-- LOGIN -->
+        <section id="loginView" class="view active">
+
+            <div class="section-title">
+                <span></span>
+                <p>TEACHER'S LOGIN</p>
+                <span></span>
+            </div>
+
+            <form id="loginForm" class="form">
+
+                <!-- USERNAME -->
+                <label for="loginUsername">
+                    Username
+                    <small>REQUIRED</small>
+                </label>
+
+                <input
+                    type="text"
+                    id="loginUsername"
+                    placeholder="Enter username"
+                    autocomplete="username"
+                    required
+                >
+
+
+                <!-- PASSWORD -->
+                <label for="loginPassword">
+                    Password
+                    <small>REQUIRED</small>
+                </label>
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Enter password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        onclick="showPassword('loginPassword', this)"
+                    >
+                        SHOW
+                    </button>
+
+                </div>
+
+
+                <!-- REMEMBER ME -->
+                <label class="remember">
+
+                    <input
+                        type="checkbox"
+                        id="remember"
+                    >
+
+                    <span class="checkmark"></span>
+
+                    Remember me
+
+                </label>
+
+
+                <div id="loginMessage" class="message"></div>
+
+
+                <button class="primary-button" type="submit">
+                    ENTER
+                </button>
+
+            </form>
+
+
+            <p class="switch-text">
+                New teacher?
+                <button
+                    class="text-button"
+                    onclick="showCreateAccount()"
+                >
+                    CREATE ACCOUNT
+                </button>
+            </p>
+
+        </section>
+
+
+        <!-- CREATE ACCOUNT -->
+        <section id="createView" class="view">
+
+            <div class="section-title">
+                <span></span>
+                <p>CREATE TEACHER ACCOUNT</p>
+                <span></span>
+            </div>
+
+            <form id="createForm" class="form">
+
+
+                <!-- COLLEGE -->
+                <label for="college">
+                    College Name
+                    <small>REQUIRED</small>
+                </label>
+
+                <select id="college" required>
+                    <option value="" disabled selected>
+                        Select your college
+                    </option>
+
+                    <option value="college1">
+                        R.C. Technical Institute
+                    </option>
+                </select>
+
+
+                <!-- DEPARTMENT -->
+                <label for="department">
+                    Department
+                    <small>REQUIRED</small>
+                </label>
+
+                <select id="department" required>
+                    <option value="" disabled selected>
+                        Select department
+                    </option>
+
+                    <option value="computer">
+                        Computer Engineering
+                    </option>
+
+                    <option value="it">
+                        Information Technology
+                    </option>
+
+                    <option value="mechanical">
+                        Mechanical Engineering
+                    </option>
+
+                    <option value="civil">
+                        Civil Engineering
+                    </option>
+
+                    <option value="electrical">
+                        Electrical Engineering
+                    </option>
+                </select>
+
+
+                <!-- FULL NAME -->
+                <label for="name">
+                    Full Name
+                    <small>REQUIRED</small>
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter your full name"
+                    autocomplete="name"
+                    required
+                >
+
+
+                <!-- USERNAME -->
+                <label for="username">
+                    Username
+                    <small>REQUIRED</small>
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Choose a username"
+                    autocomplete="username"
+                    required
+                >
+
+
+                <!-- CREATE PASSWORD -->
+                <label for="password">
+                    Create Password
+                    <small>REQUIRED</small>
+                </label>
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        onclick="showPassword('password', this)"
+                    >
+                        SHOW
+                    </button>
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+                <label for="confirmPassword">
+                    Confirm Password
+                    <small>REQUIRED</small>
+                </label>
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Confirm your password"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        onclick="showPassword('confirmPassword', this)"
+                    >
+                        SHOW
+                    </button>
+
+                </div>
+
+
+                <!-- CLASS COORDINATOR -->
+                <label
+                    class="coordinator-option"
+                    id="coordinatorLabel"
+                >
+
+                    <input
+                        type="checkbox"
+                        id="isCoordinator"
+                        onchange="toggleBatchYear()"
+                    >
+
+                    <span class="checkmark"></span>
+
+                    <span>
+                        <strong>Are you a Class Coordinator?</strong>
+                        <small class="coordinator-note">
+                            Select this if you manage a class
+                        </small>
+                    </span>
+
+                </label>
+
+
+                <!-- BATCH YEAR -->
+                <div
+                    id="batchYearContainer"
+                    class="conditional-field"
+                    style="display: none;"
+                >
+
+                    <div class="batch-years">
+                        <div>
+                            <label for="batchStartYear">
+                                Starting Year
+                                <small>REQUIRED</small>
+                            </label>
+
+                            <select id="batchStartYear">
+                                <option value="" disabled selected>
+                                    Select year
+                                </option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="batchEndYear">
+                                Next Year
+                            </label>
+
+                            <input
+                                type="text"
+                                id="batchEndYear"
+                                placeholder="Auto-filled"
+                                readonly
+                            >
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div id="createMessage" class="message"></div>
+
+
+                <button
+                    class="primary-button"
+                    type="submit"
+                >
+                    CREATE ACCOUNT
+                </button>
+
+            </form>
+
+
+            <p class="switch-text">
+                Already have an account?
+
+                <button
+                    class="text-button"
+                    onclick="showLogin()"
+                >
+                    LOGIN
+                </button>
+            </p>
+
+        </section>
+
+
+        <div class="double-rule bottom-rule"></div>
+
+        <footer class="card-footer">
+            TREVA FORMS · TEACHER PORTAL
+        </footer>
+
+    </div>
+
+</main>
+
+
+<script src="../Backend/connection.js"></script>
+
+<script>
+
+    // SHOW / HIDE PASSWORD
+    function showPassword(inputId, button) {
+
+        const input = document.getElementById(inputId);
+
+        if (input.type === "password") {
+
+            input.type = "text";
+            button.textContent = "HIDE";
+
+        } else {
+
+            input.type = "password";
+            button.textContent = "SHOW";
+
+        }
+    }
+
+
+    // CLASS COORDINATOR
+    function toggleBatchYear() {
+
+        const checkbox =
+            document.getElementById("isCoordinator");
+
+        const batchContainer =
+            document.getElementById("batchYearContainer");
+
+        const batchStartYear =
+            document.getElementById("batchStartYear");
+
+        const batchEndYear =
+            document.getElementById("batchEndYear");
+
+        const coordinatorLabel =
+            document.getElementById("coordinatorLabel");
+
+        batchStartYear.required = checkbox.checked;
+
+        if (checkbox.checked) {
+
+            batchContainer.style.display = "block";
+
+            coordinatorLabel.classList.add("selected");
+
+        } else {
+
+            batchContainer.style.display = "none";
+
+            batchStartYear.value = "";
+            batchEndYear.value = "";
+
+            coordinatorLabel.classList.remove("selected");
+        }
+    }
+
+    const batchStartYear =
+        document.getElementById("batchStartYear");
+
+    const batchEndYear =
+        document.getElementById("batchEndYear");
+
+    for (let year = 2020; year <= new Date().getFullYear() + 5; year += 1) {
+        const option = document.createElement("option");
+        option.value = year;
+        option.textContent = year;
+        batchStartYear.appendChild(option);
+    }
+
+    batchStartYear.addEventListener("change", () => {
+        batchEndYear.value = Number(batchStartYear.value) + 1;
+    });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f4f6f8" />
+  <title>Aura Bytes Command Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-shell" id="appShell">
+    <!-- Dashboard exists underneath the login scene so the plane transition has somewhere real to land. -->
+    <section class="dashboard" id="dashboard" aria-hidden="true">
+      <header class="dash-header">
+        <div>
+          <span class="eyebrow">AURA BYTES</span>
+          <h1>Command Portal</h1>
+        </div>
+        <button class="dash-logout" id="dashboardLogout">Sign out</button>
+      </header>
+
+      <div class="dash-grid">
+        <article class="dash-card dash-card-wide">
+          <span class="card-label">OVERVIEW</span>
+          <h2>Academic workspace</h2>
+          <p>The real student or faculty dashboard will replace this preview after backend integration.</p>
+        </article>
+        <article class="dash-card">
+          <span class="card-label">TODAY</span>
+          <strong>Timetable</strong>
+          <p>Classes, batches and current sessions.</p>
+        </article>
+        <article class="dash-card">
+          <span class="card-label">ATTENDANCE</span>
+          <strong>Class record</strong>
+          <p>Attendance information will appear here.</p>
+        </article>
+        <article class="dash-card">
+          <span class="card-label">RESOURCES</span>
+          <strong>Study hub</strong>
+          <p>Syllabus, IMPs, papers, notes and labs.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="login-scene" id="loginScene">
+      <div class="ambient ambient-one"></div>
+      <div class="ambient ambient-two"></div>
+
+      <div class="brand-corner">
+        <span class="brand-mark">AB</span>
+        <span>Aura Bytes</span>
+      </div>
+
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch between day and night mode" aria-pressed="false">
+        <span class="theme-icon sun" aria-hidden="true"></span>
+        <span class="theme-track"><span class="theme-knob"></span></span>
+        <span class="theme-icon moon" aria-hidden="true"></span>
+      </button>
+
+      <!-- The moving panel is a separate visual layer. -->
+      <div class="motion-panel" id="motionPanel">
+        <div class="panel-lines" aria-hidden="true"></div>
+        <div class="orb orb-a" aria-hidden="true"></div>
+        <div class="orb orb-b" aria-hidden="true"></div>
+
+        <div class="motion-copy">
+          <span class="eyebrow">COLLEGE COMMAND PORTAL</span>
+          <h2 id="panelTitle">Your academic workspace.</h2>
+          <p id="panelText">One place for the everyday tools around your college life.</p>
+        </div>
+      </div>
+
+      <div class="form-layer">
+        <div class="form-panel" id="formPanel">
+          <div class="form-heading">
+            <span class="eyebrow" id="formEyebrow">TEACHER PORTAL</span>
+            <h1 id="formTitle">Welcome back.</h1>
+            <p id="formSubtitle">Sign in to continue to Teacher Command Portal.</p>
+          </div>
+
+          <form id="authForm" novalidate>
+            <!-- COLLEGE (Create Mode) -->
+            <div class="field create-field">
+              <label for="college">College Name <small class="req">REQUIRED</small></label>
+              <select id="college" name="college" class="select-input">
+                <option value="" disabled selected>Select your college</option>
+                <option value="college1">R.C. Technical Institute</option>
+              </select>
+              <span class="field-error" id="collegeError"></span>
+            </div>
+
+            <!-- DEPARTMENT (Create Mode) -->
+            <div class="field create-field">
+              <label for="department">Department <small class="req">REQUIRED</small></label>
+              <select id="department" name="department" class="select-input">
+                <option value="" disabled selected>Select department</option>
+                <option value="computer">Computer Engineering</option>
+                <option value="it">Information Technology</option>
+                <option value="mechanical">Mechanical Engineering</option>
+                <option value="civil">Civil Engineering</option>
+                <option value="electrical">Electrical Engineering</option>
+              </select>
+              <span class="field-error" id="departmentError"></span>
+            </div>
+
+            <!-- FULL NAME (Create Mode) -->
+            <div class="field create-field">
+              <label for="name">Full Name <small class="req">REQUIRED</small></label>
+              <input id="name" name="name" type="text" autocomplete="name" placeholder="Enter your full name" />
+              <span class="field-error" id="nameError"></span>
+            </div>
+
+            <!-- USERNAME / ID -->
+            <div class="field">
+              <label for="userId" id="idLabel">Username</label>
+              <input id="userId" name="userId" type="text" inputmode="text" autocomplete="username"
+                     placeholder="Enter username" maxlength="32" required />
+              <span class="field-error" id="idError"></span>
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="field">
+              <div class="label-row">
+                <label for="password" id="passwordLabel">Password</label>
+                <button type="button" class="text-button" id="passwordToggle">Show</button>
+              </div>
+              <input id="password" name="password" type="password" autocomplete="current-password"
+                     placeholder="Password" maxlength="72" required />
+              <span class="field-error" id="passwordError"></span>
+            </div>
+
+            <!-- CONFIRM PASSWORD (Create Mode) -->
+            <div class="field create-field">
+              <div class="label-row">
+                <label for="confirmPassword">Confirm Password <small class="req">REQUIRED</small></label>
+                <button type="button" class="text-button" id="confirmPasswordToggle">Show</button>
+              </div>
+              <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password"
+                     placeholder="Confirm your password" maxlength="72" />
+              <span class="field-error" id="confirmPasswordError"></span>
+            </div>
+
+            <!-- CLASS COORDINATOR (Create Mode) -->
+            <div class="field create-field coordinator-field" id="coordinatorContainer">
+              <label class="coordinator-option" id="coordinatorLabel">
+                <input type="checkbox" id="isCoordinator" />
+                <span class="checkmark" aria-hidden="true"></span>
+                <span>
+                  <strong>Are you a Class Coordinator?</strong>
+                  <small class="coordinator-note">Select this if you manage a class</small>
+                </span>
+              </label>
+            </div>
+
+            <!-- BATCH YEAR (Create Mode, conditional) -->
+            <div id="batchYearContainer" class="field create-field conditional-field" style="display: none;">
+              <div class="batch-years">
+                <div>
+                  <label for="batchStartYear">Starting Year <small class="req">REQUIRED</small></label>
+                  <select id="batchStartYear" class="select-input">
+                    <option value="" disabled selected>Select year</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="batchEndYear">Next Year</label>
+                  <input type="text" id="batchEndYear" placeholder="Auto-filled" readonly />
+                </div>
+              </div>
+              <span class="field-error" id="batchYearError"></span>
+            </div>
+
+            <!-- REMEMBER ME -->
+            <label class="remember">
+              <input id="remember" name="remember" type="checkbox" />
+              <span class="checkmark" aria-hidden="true"></span>
+              <span>Remember ID on this device</span>
+            </label>
+
+            <button class="primary-button" id="submitButton" type="submit">
+              <span id="submitText">Login</span>
+              <span class="button-arrow" aria-hidden="true">→</span>
+            </button>
+
+            <p class="auth-switch">
+              <span id="switchPrompt">Have not created an account?</span>
+              <button type="button" class="link-button" id="switchMode">Click here</button>
+            </p>
+          </form>
+
+          <p class="status-message" id="statusMessage" role="status" aria-live="polite"></p>
+
+          <footer class="minimal-footer">
+            <a href="#" id="privacyLink">Privacy Policy</a>
+            <span>•</span>
+            <span>Prototype build</span>
+          </footer>
+        </div>
+      </div>
+
+      <div class="plane" id="paperPlane" aria-hidden="true">
+        <svg viewBox="0 0 320 220" role="presentation">
+          <path class="plane-shadow" d="M27 190 294 35 181 206 137 135Z"></path>
+          <path class="plane-body" d="M27 190 294 35 181 206 137 135Z"></path>
+          <path class="plane-fold" d="M27 190 137 135 294 35 181 206Z"></path>
+          <path class="plane-detail" d="M137 135 181 206 167 126Z"></path>
+        </svg>
+      </div>
+
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

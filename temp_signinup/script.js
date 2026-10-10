@@ -4,20 +4,22 @@
   const $ = (selector, parent = document) => parent.querySelector(selector);
   const $$ = (selector, parent = document) => [...parent.querySelectorAll(selector)];
 
+  // Scene & DOM Elements
   const scene = $("#loginScene");
   const form = $("#authForm");
-  const formPanel = $("#formPanel");
-  const motionPanel = $("#motionPanel");
-  const paperPlane = $("#paperPlane");
   const dashboard = $("#dashboard");
   const themeToggle = $("#themeToggle");
   const passwordToggle = $("#passwordToggle");
   const confirmPasswordToggle = $("#confirmPasswordToggle");
   const switchMode = $("#switchMode");
+  const loginTab = $("#loginTab");
+  const createTab = $("#createTab");
   const submitButton = $("#submitButton");
   const submitText = $("#submitText");
   const statusMessage = $("#statusMessage");
   const toast = $("#toast");
+  const cursorGlow = $("#cursorGlow");
+  const bgCanvas = $("#bgCanvas");
 
   // Form Inputs
   const collegeInput = $("#college");
@@ -54,22 +56,17 @@
   const batchYearError = $("#batchYearError");
 
   let mode = "login";
-  const role = "teacher";
   let toastTimer;
 
   const DEMO_ACCOUNTS = {
     teacher: {
       id: "teacher123",
       password: "teacherpassword"
-    },
-    faculty: {
-      id: "FAC-001",
-      password: "faculty123"
     }
   };
 
-  const SUPABASE_URL = "https://xhmpdhousonsdasolyzc.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_GnvX1KDInNAm0Ip6OSynJg_PomHcyVp";
+  // Supabase config — sourced from shared supabase.js (loaded via index1.html)
+  // SUPABASE_URL and SUPABASE_KEY are declared globally in supabase.js
 
   const REMEMBER_KEY = "auraBytesRememberedTeacherId";
   const THEME_KEY = "auraBytesTheme";
@@ -81,16 +78,121 @@
     loadRememberedId();
     populateBatchYears();
     bindEvents();
-    setupTeacherPortalUI();
+    initCanvasAnimation();
+    initCursorGlow();
   }
 
-  function setupTeacherPortalUI() {
-    if (formEyebrow) formEyebrow.textContent = "TEACHER PORTAL";
-    if (idLabel) idLabel.textContent = "Username";
-    if (idInput) idInput.placeholder = mode === "login" ? "Enter username" : "Choose a username";
-    if (panelTitle) panelTitle.textContent = mode === "login" ? "Your teaching workspace." : "Set up your teacher access.";
-    if (panelText) panelText.textContent = "Attendance, forms, quizzes, resources and class management in one place.";
+  // ---------------- Interactive Canvas Particle Network ----------------
+
+  function initCanvasAnimation() {
+    if (!bgCanvas) return;
+    const ctx = bgCanvas.getContext("2d");
+    let width = (bgCanvas.width = window.innerWidth);
+    let height = (bgCanvas.height = window.innerHeight);
+
+    let mouse = { x: width / 2, y: height / 2, radius: 140 };
+
+    window.addEventListener("resize", () => {
+      width = bgCanvas.width = window.innerWidth;
+      height = bgCanvas.height = window.innerHeight;
+    });
+
+    window.addEventListener("mousemove", e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    const particleCount = Math.floor(Math.min(width, height) / 12);
+    const particles = [];
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.8,
+        vy: (Math.random() - 0.5) * 0.8,
+        radius: Math.random() * 2 + 1,
+        baseAlpha: Math.random() * 0.4 + 0.1
+      });
+    }
+
+    function render() {
+      ctx.clearRect(0, 0, width, height);
+      const isDay = document.body.classList.contains("day-mode");
+      const dotColor = isDay ? "2, 132, 199" : "56, 189, 248";
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+        // Mouse interaction / Repulsion
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < mouse.radius) {
+          const force = (mouse.radius - dist) / mouse.radius;
+          p.x -= (dx / dist) * force * 3;
+          p.y -= (dy / dist) * force * 3;
+        }
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${dotColor}, ${p.baseAlpha})`;
+        ctx.fill();
+
+        // Draw connections
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const pdist = Math.hypot(p.x - p2.x, p.y - p2.y);
+          if (pdist < 110) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(${dotColor}, ${0.12 * (1 - pdist / 110)})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(render);
+    }
+
+    render();
   }
+
+  // ---------------- Interactive Cursor Glow Spotlight ----------------
+
+  function initCursorGlow() {
+    if (!cursorGlow) return;
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let currentX = targetX;
+    let currentY = targetY;
+
+    window.addEventListener("mousemove", e => {
+      targetX = e.clientX;
+      targetY = e.clientY;
+    });
+
+    function updateGlow() {
+      currentX += (targetX - currentX) * 0.1;
+      currentY += (targetY - currentY) * 0.1;
+      cursorGlow.style.left = `${currentX}px`;
+      cursorGlow.style.top = `${currentY}px`;
+      requestAnimationFrame(updateGlow);
+    }
+
+    updateGlow();
+  }
+
+  // ---------------- Batch Year Options ----------------
 
   function populateBatchYears() {
     batchStartYear.innerHTML = '<option value="" disabled selected>Select year</option>';
@@ -103,19 +205,23 @@
     }
   }
 
+  // ---------------- Event Listeners ----------------
+
   function bindEvents() {
     themeToggle.addEventListener("click", toggleTheme);
     passwordToggle.addEventListener("click", togglePassword);
     confirmPasswordToggle.addEventListener("click", toggleConfirmPassword);
     switchMode.addEventListener("click", toggleAuthMode);
 
-    form.addEventListener("submit", handleSubmit);
+    if (loginTab) loginTab.addEventListener("click", () => setAuthMode("login"));
+    if (createTab) createTab.addEventListener("click", () => setAuthMode("create"));
 
+    form.addEventListener("submit", handleSubmit);
     $("#dashboardLogout").addEventListener("click", resetToLogin);
 
-    $("#privacyLink").addEventListener("click", event => {
-      event.preventDefault();
-      showToast("Privacy policy will be connected when the backend is added.");
+    $("#privacyLink").addEventListener("click", e => {
+      e.preventDefault();
+      showToast("Privacy policy integrated for Treva Forms Ecosystem.");
     });
 
     isCoordinatorInput.addEventListener("change", toggleBatchYear);
@@ -148,28 +254,35 @@
   }
 
   function toggleAuthMode() {
-    mode = mode === "login" ? "create" : "login";
+    setAuthMode(mode === "login" ? "create" : "login");
+  }
+
+  function setAuthMode(nextMode) {
+    mode = nextMode;
     scene.classList.toggle("create-mode", mode === "create");
 
+    if (loginTab) loginTab.classList.toggle("active", mode === "login");
+    if (createTab) createTab.classList.toggle("active", mode === "create");
+
     if (mode === "create") {
-      formTitle.textContent = "Create account.";
-      formSubtitle.textContent = "Set up your teacher access for the command portal.";
+      formTitle.textContent = "Create Account";
+      formSubtitle.textContent = "Set up your teacher access for Treva Forms.";
       passwordLabel.textContent = "Create Password";
-      submitText.textContent = "Create account";
-      switchPrompt.textContent = "Already have an account?";
-      switchMode.textContent = "Login";
+      submitText.textContent = "Create Account";
+      switchPrompt.textContent = "Already registered?";
+      switchMode.textContent = "Sign In";
       panelTitle.textContent = "Set up your teacher access.";
       idLabel.textContent = "Username";
       idInput.placeholder = "Choose a username";
       coordinatorContainer.style.display = "block";
     } else {
-      formTitle.textContent = "Welcome back.";
-      formSubtitle.textContent = "Sign in to continue to Teacher Command Portal.";
+      formTitle.textContent = "Welcome back";
+      formSubtitle.textContent = "Sign in to access your teacher dashboard.";
       passwordLabel.textContent = "Password";
-      submitText.textContent = "Login";
-      switchPrompt.textContent = "Have not created an account?";
-      switchMode.textContent = "Click here";
-      panelTitle.textContent = "Your teaching workspace.";
+      submitText.textContent = "Sign In";
+      switchPrompt.textContent = "Need a teacher account?";
+      switchMode.textContent = "Create account";
+      panelTitle.textContent = "Inspiring minds. Shaping tomorrow.";
       idLabel.textContent = "Username";
       idInput.placeholder = "Enter username";
       coordinatorContainer.style.display = "none";
@@ -188,15 +301,16 @@
     });
   }
 
+  // ---------------- Submission & Supabase Auth ----------------
+
   async function handleSubmit(event) {
     event.preventDefault();
-
     if (!validate()) return;
 
     submitButton.disabled = true;
     statusMessage.textContent = "";
 
-    await wait(450);
+    await wait(350);
 
     const id = idInput.value.trim();
     const password = passwordInput.value;
@@ -226,6 +340,16 @@
     } else {
       localStorage.removeItem(REMEMBER_KEY);
     }
+
+    // Save session — used by Main_Page to personalise the dashboard
+    const tr = account.teacherRow || {};
+    TrevaSession.save({
+      username:    id,
+      fullname:    tr.fullname  || id,
+      department:  tr.department  || account.department  || '',
+      collegename: tr.collegename || account.college     || '',
+      teacherid:   tr.teacherid  || null
+    });
 
     beginLoginTransition();
   }
@@ -259,14 +383,14 @@
     };
 
     localStorage.setItem(key, JSON.stringify(account));
-
     if (rememberInput.checked) {
       localStorage.setItem(REMEMBER_KEY, id);
     }
 
     let supabaseSaved = false;
     try {
-      const supabasePayload = {
+      // 1. Insert into teacher_logins
+      const loginPayload = {
         collegename: collegeVal,
         department: departmentVal,
         fullname: fullNameVal,
@@ -283,14 +407,34 @@
           "Content-Type": "application/json",
           "Prefer": "return=representation"
         },
-        body: JSON.stringify(supabasePayload)
+        body: JSON.stringify(loginPayload)
       });
 
       if (res.ok) {
         supabaseSaved = true;
+
+        // 2. Also insert into teacher master table (avoids duplicate if exists)
+        try {
+          await fetch(`${SUPABASE_URL}/rest/v1/teacher`, {
+            method: "POST",
+            headers: {
+              "apikey": SUPABASE_KEY,
+              "Authorization": `Bearer ${SUPABASE_KEY}`,
+              "Content-Type": "application/json",
+              "Prefer": "return=minimal,resolution=ignore-duplicates"
+            },
+            body: JSON.stringify({
+              fullname: fullNameVal,
+              department: departmentVal,
+              collegename: collegeVal,
+              login_username: fullNameVal
+            })
+          });
+        } catch(e) { console.warn("teacher table insert:", e); }
+
       } else {
         const errorDetail = await res.json().catch(() => ({}));
-        console.warn("Supabase insert response:", res.status, errorDetail);
+        console.warn("Supabase response:", res.status, errorDetail);
         if (res.status === 401) {
           statusMessage.textContent = "Supabase 401 RLS Error: Run 'ALTER TABLE teacher_logins DISABLE ROW LEVEL SECURITY;' in Supabase SQL Editor.";
           submitButton.disabled = false;
@@ -308,8 +452,7 @@
     submitButton.disabled = false;
 
     setTimeout(() => {
-      mode = "login";
-      toggleAuthMode();
+      setAuthMode("login");
       passwordInput.value = "";
       statusMessage.textContent = supabaseSaved
         ? "Account created in Supabase. Please sign in."
@@ -319,7 +462,7 @@
 
   async function getStoredAccount(accountRole, id) {
     try {
-      const queryUrl = `${SUPABASE_URL}/rest/v1/teacher_logins?fullname=eq.${encodeURIComponent(id)}`;
+      const queryUrl = `${SUPABASE_URL}/rest/v1/teacher_logins?fullname=eq.${encodeURIComponent(id)}&select=*`;
       const res = await fetch(queryUrl, {
         headers: {
           "apikey": SUPABASE_KEY,
@@ -330,11 +473,26 @@
         const rows = await res.json();
         if (rows && rows.length > 0) {
           const userRow = rows[0];
+
+          // Also fetch the teacher master record to get teacherid
+          let teacherRow = null;
+          try {
+            const tRes = await fetch(
+              `${SUPABASE_URL}/rest/v1/teacher?login_username=eq.${encodeURIComponent(id)}&select=*`,
+              { headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` } }
+            );
+            if (tRes.ok) {
+              const tRows = await tRes.json();
+              if (tRows && tRows.length > 0) teacherRow = tRows[0];
+            }
+          } catch(e) { console.warn("teacher lookup:", e); }
+
           return {
             role: "teacher",
             id: userRow.fullname,
             passwordHash: await sha256(userRow.password),
-            rawPassword: userRow.password
+            rawPassword: userRow.password,
+            teacherRow            // may be null if not yet in teacher table
           };
         }
       }
@@ -344,10 +502,9 @@
 
     const key = `auraBytesAccount_teacher_${id.toLowerCase()}`;
     const stored = localStorage.getItem(key);
-
     if (stored) return JSON.parse(stored);
 
-    const demo = DEMO_ACCOUNTS.teacher || DEMO_ACCOUNTS.faculty;
+    const demo = DEMO_ACCOUNTS.teacher;
     if (demo && demo.id.toLowerCase() === id.toLowerCase()) {
       return {
         role: "teacher",
@@ -361,21 +518,15 @@
 
   function beginLoginTransition() {
     submitButton.disabled = true;
-    submitText.textContent = "Opening...";
+    submitText.textContent = "Opening Portal...";
     statusMessage.textContent = "";
 
     setTimeout(() => {
       scene.classList.add("fly-away");
-
+      // Redirect to the real Teacher Portal after fly-away animation
       setTimeout(() => {
-        dashboard.classList.add("visible");
-        dashboard.setAttribute("aria-hidden", "false");
-      }, 520);
-
-      setTimeout(() => {
-        scene.classList.remove("fly-away");
-        scene.style.display = "none";
-      }, 1400);
+        window.location.href = "../Main_Page/index.html";
+      }, 650);
     }, 180);
   }
 
@@ -389,7 +540,7 @@
     isCoordinatorInput.checked = false;
     toggleBatchYear();
     submitButton.disabled = false;
-    submitText.textContent = mode === "login" ? "Login" : "Create account";
+    submitText.textContent = mode === "login" ? "Sign In" : "Create Account";
     loadRememberedId();
 
     setTimeout(() => idInput.focus(), 500);
@@ -489,16 +640,16 @@
   }
 
   function toggleTheme() {
-    const night = document.body.classList.toggle("night");
-    themeToggle.setAttribute("aria-pressed", String(night));
-    localStorage.setItem(THEME_KEY, night ? "night" : "day");
-    document.querySelector('meta[name="theme-color"]').setAttribute("content", night ? "#0f1419" : "#eef1f4");
+    const isDay = document.body.classList.toggle("day-mode");
+    themeToggle.setAttribute("aria-pressed", String(isDay));
+    localStorage.setItem(THEME_KEY, isDay ? "day" : "night");
+    document.querySelector('meta[name="theme-color"]').setAttribute("content", isDay ? "#f8fafc" : "#090d16");
   }
 
   function loadTheme() {
     const saved = localStorage.getItem(THEME_KEY);
-    if (saved === "night") {
-      document.body.classList.add("night");
+    if (saved === "day") {
+      document.body.classList.add("day-mode");
       themeToggle.setAttribute("aria-pressed", "true");
     }
   }

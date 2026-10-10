@@ -1,0 +1,629 @@
+/* ==========================================================================
+   STUDENTS PAGE SPECIFIC STYLES
+   Detailed student roster, Excel-style attendance matrix, day-timetable breakdown,
+   academic results, and quick actions
+   ========================================================================== */
+
+/* Page Banner */
+.students-banner {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    box-shadow: var(--shadow);
+    border-left: 5px solid var(--primary);
+}
+
+.students-banner-left h1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.students-banner-left h1 svg {
+    width: 26px;
+    height: 26px;
+    color: var(--primary);
+}
+
+.students-banner-left p {
+    font-size: 13.5px;
+    color: var(--text-muted);
+}
+
+.view-mode-toggle {
+    display: flex;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 4px;
+    gap: 4px;
+}
+
+.view-mode-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: calc(var(--radius-sm) - 3px);
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.view-mode-btn.active {
+    background: var(--card);
+    color: var(--primary);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.view-mode-btn svg {
+    width: 15px;
+    height: 15px;
+}
+
+/* Filter Bar */
+.students-filter-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 18px 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-light);
+}
+
+.students-filter-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.filter-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 140px;
+}
+
+.filter-input-group label {
+    font-size: 11.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+}
+
+.filter-input-group select,
+.filter-input-group input {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 9px 12px;
+    font-size: 13.5px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+}
+
+.filter-input-group select:focus,
+.filter-input-group input:focus {
+    border-color: var(--primary);
+}
+
+/* ==========================================================================
+   VIEW 1: DETAILED STUDENT ROSTER CARDS / TABLE
+   ========================================================================== */
+
+.roster-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-light);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.roster-card-head {
+    padding: 18px 24px;
+    border-bottom: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.roster-card-head h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.roster-table-wrap {
+    overflow-x: auto;
+}
+
+.roster-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+}
+
+.roster-table thead th {
+    background: var(--bg);
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 11.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    border-bottom: 1.5px solid var(--border);
+}
+
+.roster-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+}
+
+.roster-table tbody tr:hover {
+    background: var(--surface-subtle);
+}
+
+.roster-table td {
+    padding: 12px 16px;
+    vertical-align: middle;
+}
+
+/* Badges for sem, class, batch, tutorial */
+.sem-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 11.5px;
+    font-weight: 700;
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+}
+
+.tut-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 11.5px;
+    font-weight: 700;
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+
+/* Action button group on each student */
+.student-action-btns {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+}
+
+.btn-student-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 11px;
+    border-radius: var(--radius-xs);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+
+.btn-student-action.att {
+    color: var(--primary);
+    border-color: var(--primary);
+    background: var(--surface-tint);
+}
+.btn-student-action.att:hover {
+    background: var(--primary);
+    color: #fff;
+}
+
+.btn-student-action.result {
+    color: #4f46e5;
+    border-color: #c7d2fe;
+    background: #eef2ff;
+}
+.btn-student-action.result:hover {
+    background: #4f46e5;
+    color: #fff;
+}
+
+.btn-student-action.edit:hover {
+    background: var(--surface-active);
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-student-action svg {
+    width: 13px;
+    height: 13px;
+}
+
+/* ==========================================================================
+   VIEW 2: EXCEL SHEET STYLE DATE-WISE ATTENDANCE MATRIX
+   ========================================================================== */
+
+.excel-matrix-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-light);
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.excel-matrix-head {
+    padding: 18px 24px;
+    border-bottom: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.matrix-legend {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.matrix-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.matrix-legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+.matrix-legend-dot.full    { background: #dcfce7; border: 1px solid #86efac; }
+.matrix-legend-dot.partial { background: #fef3c7; border: 1px solid #fde68a; }
+.matrix-legend-dot.low     { background: #fee2e2; border: 1px solid #fca5a5; }
+
+.excel-table-container {
+    overflow-x: auto;
+    max-height: 72vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.excel-matrix-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13px;
+    min-width: 1100px;
+}
+
+/* Sticky top header */
+.excel-matrix-table thead th {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    padding: 10px 12px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--text-muted);
+    border-bottom: 2px solid var(--border);
+    border-right: 1px solid var(--border);
+    text-align: center;
+    z-index: 5;
+    white-space: nowrap;
+}
+
+/* Sticky left column for student name & enrollment */
+.excel-matrix-table thead th.sticky-col,
+.excel-matrix-table tbody td.sticky-col {
+    position: sticky;
+    left: 0;
+    background: var(--card);
+    z-index: 6;
+    border-right: 2px solid var(--border);
+    text-align: left;
+    min-width: 220px;
+    max-width: 260px;
+}
+
+.excel-matrix-table thead th.sticky-col {
+    background: var(--bg);
+    z-index: 7;
+}
+
+.excel-matrix-table tbody td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    text-align: center;
+    vertical-align: middle;
+    background: var(--card);
+    transition: background 0.1s;
+}
+
+.excel-matrix-table tbody tr:hover td {
+    background: var(--surface-subtle);
+}
+.excel-matrix-table tbody tr:hover td.sticky-col {
+    background: var(--surface-subtle);
+}
+
+/* Interactive Cell Ratio Pills (e.g. 4/5) */
+.cell-ratio-pill {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: monospace;
+    cursor: pointer;
+    transition: transform 0.12s, box-shadow 0.12s;
+    user-select: none;
+    min-width: 42px;
+    border: 1px solid transparent;
+}
+
+.cell-ratio-pill:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+.cell-ratio-pill.full {
+    background: #dcfce7;
+    color: #15803d;
+    border-color: #86efac;
+}
+
+.cell-ratio-pill.good {
+    background: #ecfdf5;
+    color: #047857;
+    border-color: #a7f3d0;
+}
+
+.cell-ratio-pill.partial {
+    background: #fef3c7;
+    color: #b45309;
+    border-color: #fde68a;
+}
+
+.cell-ratio-pill.low {
+    background: #fee2e2;
+    color: #b91c1c;
+    border-color: #fca5a5;
+}
+
+.cell-ratio-pill.holiday {
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 11px;
+}
+
+/* Final Overall Percentage Column */
+.excel-matrix-table thead th.overall-col,
+.excel-matrix-table tbody td.overall-col {
+    position: sticky;
+    right: 0;
+    background: var(--bg);
+    border-left: 2px solid var(--border);
+    font-weight: 800;
+    z-index: 4;
+}
+
+.excel-matrix-table tbody td.overall-col {
+    background: var(--card);
+}
+
+.excel-matrix-table tbody tr:hover td.overall-col {
+    background: var(--surface-subtle);
+}
+
+.overall-pct-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12.5px;
+    font-weight: 800;
+}
+
+.overall-pct-badge.good {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.overall-pct-badge.defaulter {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1.5px solid #fca5a5;
+}
+
+/* ==========================================================================
+   DAY TIMETABLE & LECTURE BREAKDOWN MODAL (#dayBreakdownModal)
+   ========================================================================== */
+
+.day-breakdown-card {
+    max-width: 620px !important;
+    width: 95vw !important;
+    padding: 0 !important;
+    overflow: hidden;
+}
+
+.day-breakdown-head {
+    padding: 20px 24px;
+    border-bottom: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--card);
+}
+
+.day-breakdown-body {
+    padding: 20px 24px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.day-breakdown-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--surface-subtle);
+    border-radius: var(--radius-sm);
+    margin-bottom: 18px;
+    font-size: 13.5px;
+    font-weight: 600;
+}
+
+.day-lectures-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.day-lecture-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    gap: 14px;
+    transition: transform 0.1s;
+}
+
+.day-lecture-item:hover {
+    transform: translateX(2px);
+}
+
+.day-lecture-item.present {
+    border-color: #86efac;
+    background: #f0fdf4;
+}
+
+.day-lecture-item.absent {
+    border-color: #fca5a5;
+    background: #fef2f2;
+}
+
+.day-lecture-info h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3px;
+}
+
+.day-lecture-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.lecture-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.lecture-status-pill.present {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.lecture-status-pill.absent {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.lecture-status-pill svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* ==========================================================================
+   ACADEMIC RESULT MODAL (#resultModal)
+   ========================================================================== */
+
+.result-card-modal {
+    max-width: 680px !important;
+    width: 95vw !important;
+}
+
+.result-gpa-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, var(--primary), #0f3f26);
+    color: #fff;
+    padding: 18px 24px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 20px;
+}
+
+.result-gpa-val {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.result-table th, .result-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+}
+
+.result-table th {
+    background: var(--bg);
+    font-size: 11.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}

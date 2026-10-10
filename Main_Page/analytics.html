@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treva Ecosystem · Attendance & Analytics</title>
+    <!-- Google Fonts: Inter, Poppins, Plus Jakarta Sans, Playfair Display, Space Grotesk, Merriweather -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Modular CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/string-nav.css">
+    <link rel="stylesheet" href="css/modals.css">
+    <link rel="stylesheet" href="css/analytics.css">
+    <script>
+        (function() {
+            try {
+                var c = JSON.parse(localStorage.getItem('treva_portal_theme_config') || '{}');
+                if (c.preset) document.documentElement.classList.add('theme-' + c.preset.replace('_', '-'));
+                if (c.fontFamily) {
+                    var s = document.createElement('style');
+                    s.id = 'treva-font-override';
+                    s.textContent = 'body, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, span, a, td, th { font-family: ' + c.fontFamily + ' !important; }';
+                    document.head.appendChild(s);
+                }
+                if (c.fontSizeScale) {
+                    document.documentElement.style.fontSize = (16 * c.fontSizeScale) + 'px';
+                }
+            } catch(e) {}
+        })();
+    </script>
+</head>
+<body>
+
+<div class="shell">
+
+    <!-- ========== SIDEBAR WITH STRING NAV ========== -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="sidebar-brand-icon"><i data-lucide="graduation-cap"></i></div>
+            <span class="sidebar-brand-name">Treva Ecosystem</span>
+        </div>
+
+        <div class="sidebar-college" onclick="window.location.href='index.html'">
+            <span class="college-dot"></span>
+            <span class="college-name">R.C. Technical Institute</span>
+            <i data-lucide="chevron-down" class="college-chevron"></i>
+        </div>
+
+        <!-- VERTICAL STRING NAV (ACTIVE = 2: ANALYTICS) -->
+        <div class="string-nav-wrapper" id="stringNavWrapper" data-active-index="2">
+            <canvas id="stringCv"></canvas>
+            <div class="string-nav-list" id="stringNavList">
+                <button class="string-nav-btn" data-nav="0" data-tab="home" title="Home">
+                    <i data-lucide="house"></i> <span>Home</span>
+                </button>
+                <button class="string-nav-btn" data-nav="1" data-tab="myclass" title="My Class">
+                    <i data-lucide="users"></i> <span>My Class <span class="nav-sub">(Coord)</span></span>
+                </button>
+                <button class="string-nav-btn active" data-nav="2" data-tab="analytics" title="Analytics">
+                    <i data-lucide="bar-chart-2"></i> <span>Analytics</span>
+                </button>
+                <button class="string-nav-btn" data-nav="3" data-tab="students" title="Students">
+                    <i data-lucide="graduation-cap"></i> <span>Students</span>
+                </button>
+                <button class="string-nav-btn" data-nav="4" data-tab="forms" title="Forms">
+                    <i data-lucide="file-text"></i> <span>Forms</span>
+                </button>
+                <button class="string-nav-btn" data-nav="5" data-tab="resources" title="Add Resources">
+                    <i data-lucide="plus-circle"></i> <span>Resources</span>
+                </button>
+                <button class="string-nav-btn" data-nav="6" data-tab="messages" title="Messages">
+                    <i data-lucide="message-circle"></i> <span>Messages</span>
+                    <span class="nav-badge">3</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="sidebar-cta">
+            <h4>Generate Report</h4>
+            <p>Download filtered<br>attendance audit</p>
+            <button class="sidebar-cta-btn" onclick="exportAttendanceCSV()">+ Export CSV</button>
+        </div>
+    </aside>
+
+    <!-- ========== MAIN CONTENT AREA ========== -->
+    <main class="main">
+
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <div style="width:40px"></div>
+            <div class="search-box">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" id="topSearchInput" placeholder="Quick search students or enrollment…" oninput="handleTopSearch(this.value)">
+            </div>
+            <div class="top-bar-right">
+                <button class="top-icon-btn" title="Notifications">
+                    <i data-lucide="bell"></i>
+                    <span class="notif-dot"></span>
+                </button>
+                <button class="top-icon-btn" title="Messages">
+                    <i data-lucide="mail"></i>
+                </button>
+                <button class="top-icon-btn" title="Settings" onclick="window.location.href='settings.html'">
+                    <i data-lucide="settings"></i>
+                </button>
+                <div class="profile-wrap">
+                    <button class="profile-avatar" id="profBtn">SP</button>
+                    <div class="profile-dropdown" id="profDD">
+                        <button class="dd-item" onclick="window.location.href='index.html'"><i data-lucide="house"></i> Home Dashboard</button>
+                        <button class="dd-item" onclick="window.location.href='my_class.html'"><i data-lucide="users"></i> My Class (CO31)</button>
+                        <button class="dd-item" onclick="window.location.href='settings.html'"><i data-lucide="palette"></i> Theme Settings</button>
+                        <div class="dd-divider"></div>
+                        <button class="dd-item logout" onclick="TrevaSession.clear(); window.location.href='../temp_signinup/index1.html'"><i data-lucide="log-out"></i> Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE HEADER BANNER -->
+        <div class="analytics-header">
+            <div class="analytics-header-title">
+                <h1><i data-lucide="bar-chart-2"></i> Attendance Analytics & Defaulter Audit</h1>
+                <p>Cross-class attendance filtration, subject-wise performance for Prof. Shah (Data Structures), and instant defaulter reports (< 80%).</p>
+            </div>
+            <div class="analytics-header-actions">
+                <button class="export-btn secondary" onclick="printDefaulterNotice()" title="Print formal Defaulter Notice list">
+                    <i data-lucide="printer"></i> Print Notice
+                </button>
+                <button class="export-btn primary" onclick="exportAttendanceCSV()" title="Download CSV spreadsheet of filtered students">
+                    <i data-lucide="download"></i> Download Filtered CSV
+                </button>
+            </div>
+        </div>
+
+        <!-- KPI SUMMARY CARDS -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-icon-wrap green">
+                    <i data-lucide="award"></i>
+                </div>
+                <div class="kpi-info">
+                    <span class="kpi-label">DS Subject Average</span>
+                    <span class="kpi-val" id="kpiDsAvg">86.4%</span>
+                    <span class="kpi-sub">Prof. Shah's Classes</span>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon-wrap blue">
+                    <i data-lucide="book-open"></i>
+                </div>
+                <div class="kpi-info">
+                    <span class="kpi-label">DS Lectures Held</span>
+                    <span class="kpi-val" id="kpiDsLectures">36 Slots</span>
+                    <span class="kpi-sub">Across Sem 3 Batches</span>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon-wrap red">
+                    <i data-lucide="alert-triangle"></i>
+                </div>
+                <div class="kpi-info">
+                    <span class="kpi-label">Defaulters (&lt; 80%)</span>
+                    <span class="kpi-val" id="kpiDefaultersCount">7 Students</span>
+                    <span class="kpi-sub warn">Action Required</span>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon-wrap amber">
+                    <i data-lucide="trending-up"></i>
+                </div>
+                <div class="kpi-info">
+                    <span class="kpi-label">Top Class in DS</span>
+                    <span class="kpi-val" id="kpiTopClass">CO31 (91%)</span>
+                    <span class="kpi-sub">Highest Attendance</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MULTI-FILTER CONTROL CARD -->
+        <div class="filter-card">
+            <div class="filter-card-head">
+                <div class="filter-card-title">
+                    <i data-lucide="sliders-horizontal"></i>
+                    <span>Multi-Criteria Attendance Filter</span>
+                </div>
+                <span class="filter-active-count" id="filterStatusText">Showing all students across all classes</span>
+            </div>
+
+            <div class="filter-row">
+                <!-- 1. Class Filter -->
+                <div class="filter-group">
+                    <label>Class</label>
+                    <select id="filterClass" onchange="applyAnalyticsFilters()">
+                        <option value="ALL">All Classes (CO31, 32, 33, 51, 52)</option>
+                        <option value="CO31">Class CO31 (Sem 3 Div 1)</option>
+                        <option value="CO32">Class CO32 (Sem 3 Div 2)</option>
+                        <option value="CO33">Class CO33 (Sem 3 Div 3)</option>
+                        <option value="CO51">Class CO51 (Sem 5 Div 1)</option>
+                        <option value="CO52">Class CO52 (Sem 5 Div 2)</option>
+                    </select>
+                </div>
+
+                <!-- 2. Batch Filter -->
+                <div class="filter-group">
+                    <label>Batch</label>
+                    <select id="filterBatch" onchange="applyAnalyticsFilters()">
+                        <option value="ALL">All Batches</option>
+                        <option value="A1">Batch A1</option>
+                        <option value="A2">Batch A2</option>
+                        <option value="A3">Batch A3</option>
+                        <option value="B1">Batch B1</option>
+                        <option value="B2">Batch B2</option>
+                        <option value="B3">Batch B3</option>
+                        <option value="C1">Batch C1</option>
+                        <option value="C2">Batch C2</option>
+                        <option value="C3">Batch C3</option>
+                        <option value="D1">Batch D1</option>
+                        <option value="D2">Batch D2</option>
+                        <option value="E1">Batch E1</option>
+                        <option value="E2">Batch E2</option>
+                    </select>
+                </div>
+
+                <!-- 3. Tutorial Filter -->
+                <div class="filter-group">
+                    <label>Tutorial Group</label>
+                    <select id="filterTut" onchange="applyAnalyticsFilters()">
+                        <option value="ALL">All Tutorials</option>
+                        <option value="T1">Tutorial T1</option>
+                        <option value="T2">Tutorial T2</option>
+                        <option value="T3">Tutorial T3</option>
+                    </select>
+                </div>
+
+                <!-- 4. Threshold Filter (Defaulters < 80%) -->
+                <div class="filter-group">
+                    <label>Attendance Threshold</label>
+                    <select id="filterThreshold" onchange="applyAnalyticsFilters()">
+                        <option value="ALL">All Percentages</option>
+                        <option value="less80">⚠️ Less than 80% Only (Defaulters)</option>
+                        <option value="less75">🚨 Critical: Less than 75% Only</option>
+                        <option value="above80">✅ 80% &amp; Above (Eligible)</option>
+                    </select>
+                </div>
+
+                <!-- 5. Search Text -->
+                <div class="filter-group" style="flex:1.4">
+                    <label>Search Student</label>
+                    <input type="text" id="filterSearch" placeholder="Type enrollment (e.g. 64) or name…" oninput="applyAnalyticsFilters()">
+                </div>
+
+                <button class="filter-reset-btn" onclick="resetAnalyticsFilters()" title="Reset all filters">
+                    <i data-lucide="rotate-ccw" style="width:14px;height:14px"></i> Reset
+                </button>
+            </div>
+        </div>
+
+        <!-- CHARTS GRID (2 GRAPHS) -->
+        <div class="charts-grid">
+
+            <!-- GRAPH 1: Filtered Attendance Distribution & Threshold -->
+            <div class="chart-card">
+                <div class="chart-card-head">
+                    <div class="chart-card-title">
+                        <h3><i data-lucide="bar-chart" style="width:18px;height:18px;color:var(--primary)"></i> Filtered Student Attendance Chart</h3>
+                        <p id="chart1Subtitle">Live distribution of currently filtered students with 80% threshold line</p>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="legend-color good"></span> <span>&ge; 80% (Good)</span></div>
+                        <div class="legend-item"><span class="legend-color warn"></span> <span>&lt; 80% (Defaulter)</span></div>
+                    </div>
+                </div>
+                <div class="chart-canvas-container">
+                    <canvas id="filteredChart"></canvas>
+                </div>
+            </div>
+
+            <!-- GRAPH 2: Prof. Shah's Data Structures (DS) Subject Average Graph -->
+            <div class="chart-card">
+                <div class="chart-card-head">
+                    <div class="chart-card-title">
+                        <h3><i data-lucide="line-chart" style="width:18px;height:18px;color:var(--primary)"></i> Subject Average: Data Structures (DS)</h3>
+                        <p>Specific attendance trend for Prof. Shah's subject (CS-301) across classes</p>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="legend-color blue"></span> <span>DS Mean (86.4%)</span></div>
+                        <div class="legend-item"><span class="legend-color warn" style="border-top:1.5px dashed #ef4444;background:none;height:0;"></span> <span>80% Req.</span></div>
+                    </div>
+                </div>
+                <div class="chart-canvas-container">
+                    <canvas id="subjectAverageChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FILTERED ATTENDANCE DATA TABLE -->
+        <div class="table-card">
+            <div class="table-card-head">
+                <div>
+                    <h3>Filtered Attendance Records</h3>
+                    <div class="table-filter-info" id="tableRecordCount">Showing 0 students</div>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button class="export-btn primary" onclick="exportAttendanceCSV()" style="padding:7px 14px; font-size:12px;">
+                        <i data-lucide="file-spreadsheet"></i> Export Current Filtered Table
+                    </button>
+                </div>
+            </div>
+
+            <div class="analytics-table-wrap">
+                <table class="analytics-table">
+                    <thead>
+                        <tr>
+                            <th style="width:40px">#</th>
+                            <th>Enrollment No.</th>
+                            <th>Student Name</th>
+                            <th>Class</th>
+                            <th>Batch</th>
+                            <th>Tut</th>
+                            <th>Subject</th>
+                            <th style="width:160px">Attendance Level</th>
+                            <th>Status (<80% Highlighted)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="analyticsTableBody">
+                        <!-- Filled by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+</div><!-- /shell -->
+
+<!-- Modular Scripts -->
+<script src="js/theme-engine.js"></script>
+<script src="js/string-nav.js"></script>
+<script src="js/analytics.js"></script>
+
+</body>
+</html>

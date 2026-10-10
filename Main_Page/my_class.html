@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treva Ecosystem · My Class (CO31)</title>
+    <!-- Google Fonts: Inter, Poppins, Plus Jakarta Sans, Playfair Display, Space Grotesk, Merriweather -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Modular CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/string-nav.css">
+    <link rel="stylesheet" href="css/modals.css">
+    <link rel="stylesheet" href="css/my-class.css">
+    <script>
+        (function() {
+            try {
+                var c = JSON.parse(localStorage.getItem('treva_portal_theme_config') || '{}');
+                if (c.preset) document.documentElement.classList.add('theme-' + c.preset.replace('_', '-'));
+                if (c.fontFamily) {
+                    var s = document.createElement('style');
+                    s.id = 'treva-font-override';
+                    s.textContent = 'body, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, span, a, td, th { font-family: ' + c.fontFamily + ' !important; }';
+                    document.head.appendChild(s);
+                }
+                if (c.fontSizeScale) {
+                    document.documentElement.style.fontSize = (16 * c.fontSizeScale) + 'px';
+                }
+            } catch(e) {}
+        })();
+    </script>
+</head>
+<body>
+
+<div class="shell">
+
+    <!-- ========== SIDEBAR WITH STRING NAV ========== -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="sidebar-brand-icon"><i data-lucide="graduation-cap"></i></div>
+            <span class="sidebar-brand-name">Treva Ecosystem</span>
+        </div>
+
+        <div class="sidebar-college" onclick="window.location.href='index.html'">
+            <span class="college-dot"></span>
+            <span class="college-name">R.C. Technical Institute</span>
+            <i data-lucide="chevron-down" class="college-chevron"></i>
+        </div>
+
+        <!-- VERTICAL STRING NAV -->
+        <div class="string-nav-wrapper" id="stringNavWrapper" data-active-index="1">
+            <canvas id="stringCv"></canvas>
+            <div class="string-nav-list" id="stringNavList">
+                <button class="string-nav-btn" data-nav="0" data-tab="home" title="Home">
+                    <i data-lucide="house"></i> <span>Home</span>
+                </button>
+                <button class="string-nav-btn active" data-nav="1" data-tab="myclass" title="My Class">
+                    <i data-lucide="users"></i> <span>My Class <span class="nav-sub">(Coord)</span></span>
+                </button>
+                <button class="string-nav-btn" data-nav="2" data-tab="analytics" title="Analytics">
+                    <i data-lucide="bar-chart-2"></i> <span>Analytics</span>
+                </button>
+                <button class="string-nav-btn" data-nav="3" data-tab="students" title="Students">
+                    <i data-lucide="graduation-cap"></i> <span>Students</span>
+                </button>
+                <button class="string-nav-btn" data-nav="4" data-tab="forms" title="Forms">
+                    <i data-lucide="file-text"></i> <span>Forms</span>
+                </button>
+                <button class="string-nav-btn" data-nav="5" data-tab="resources" title="Add Resources">
+                    <i data-lucide="plus-circle"></i> <span>Resources</span>
+                </button>
+                <button class="string-nav-btn" data-nav="6" data-tab="messages" title="Messages">
+                    <i data-lucide="message-circle"></i> <span>Messages</span>
+                    <span class="nav-badge">3</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="sidebar-cta">
+            <h4>Quick Class Action</h4>
+            <p>Manage CO31 records & timetable</p>
+            <button class="sidebar-cta-btn" onclick="openStudentModal()">+ Add Student</button>
+        </div>
+    </aside>
+
+    <!-- ========== MAIN CONTENT AREA ========== -->
+    <main class="main">
+
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <button class="top-icon-btn" onclick="window.location.href='index.html'" title="Back to Dashboard">
+                <i data-lucide="arrow-left"></i>
+            </button>
+            <div class="search-box">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" id="globalSearchInput" placeholder="Search student, enrollment, batch, project..." oninput="handleGlobalSearch(this.value)">
+            </div>
+            <div class="top-bar-right">
+                <button class="top-icon-btn" title="Notifications">
+                    <i data-lucide="bell"></i>
+                    <span class="notif-dot"></span>
+                </button>
+                <button class="top-icon-btn" title="Messages" onclick="window.location.href='index.html'">
+                    <i data-lucide="mail"></i>
+                </button>
+                <button class="top-icon-btn" title="Settings" onclick="window.location.href='settings.html'">
+                    <i data-lucide="settings"></i>
+                </button>
+                <div class="profile-wrap">
+                    <button class="profile-avatar" id="profBtn">SP</button>
+                    <div class="profile-dropdown" id="profDD">
+                        <button class="dd-item" onclick="window.location.href='index.html'"><i data-lucide="home"></i> Home Dashboard</button>
+                        <button class="dd-item"><i data-lucide="user"></i> Coordinator Profile</button>
+                        <button class="dd-item" onclick="window.location.href='settings.html'"><i data-lucide="palette"></i> Theme Settings</button>
+                        <div class="dd-divider"></div>
+                        <button class="dd-item logout" onclick="alert('Logged out!')"><i data-lucide="log-out"></i> Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== CLASS NAME BANNER (CO31) ========== -->
+        <div class="class-banner">
+            <div class="class-banner-left">
+                <div class="class-badge-box">
+                    <div class="class-code">CO31</div>
+                    <div class="class-sub">Sem 3</div>
+                </div>
+                <div class="class-meta">
+                    <h1>Class CO31 <span class="role-pill">Coordinating Class</span></h1>
+                    <p>Computer Engineering · Division 1 · Academic Term 2026-27 · Incharge: Prof. Shah</p>
+                </div>
+            </div>
+            <div class="class-banner-stats">
+                <div class="c-stat">
+                    <div class="c-stat-val" id="statStudentCount">64</div>
+                    <div class="c-stat-lbl">Students</div>
+                </div>
+                <div class="c-stat">
+                    <div class="c-stat-val" id="statBatchCount">2</div>
+                    <div class="c-stat-lbl">Batches</div>
+                </div>
+                <div class="c-stat">
+                    <div class="c-stat-val" id="statTutCount">3</div>
+                    <div class="c-stat-lbl">Project Tuts</div>
+                </div>
+                <div class="c-stat">
+                    <div class="c-stat-val">84%</div>
+                    <div class="c-stat-lbl">Avg. Attendance</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="subnav-bar">
+            <button class="subnav-btn active" data-view="students" onclick="switchSection('students')">
+                <i data-lucide="users"></i> Students (View / Edit)
+            </button>
+            <button class="subnav-btn" data-view="timetable" onclick="switchSection('timetable')">
+                <i data-lucide="calendar"></i> Class Timetable
+            </button>
+            <button class="subnav-btn" data-view="exams" onclick="switchSection('exams')">
+                <i data-lucide="file-check"></i> Create / View Exams
+            </button>
+            <button class="subnav-btn" data-view="resources" onclick="switchSection('resources')">
+                <i data-lucide="link"></i> Google Drive Resources
+            </button>
+            <button class="subnav-btn" data-view="setup" onclick="switchSection('setup')">
+                <i data-lucide="settings-2"></i> Setup (Rooms / Teachers / Subjects)
+            </button>
+        </div>
+
+
+        <!-- SECTION 1: STUDENTS -->
+        <section class="section-view active" id="sec-students">
+            <div class="panel">
+                <div class="panel-head">
+                    <div class="panel-title">
+                        <div class="panel-icon"><i data-lucide="graduation-cap"></i></div>
+                        <div>
+                            <h2>Student Roster · CO31</h2>
+                            <p>Filter by Batch, Tutorial project group, or Enrollment number</p>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                        <button class="primary-action-btn" onclick="openBatchDivideModal()">
+                            <i data-lucide="layers"></i> Create / Divide Batches & Tuts
+                        </button>
+                        <button class="primary-action-btn" onclick="openStudentModal()" style="background:var(--card-bg); border:1px solid var(--border); color:var(--text);">
+                            <i data-lucide="user-plus"></i> Add New Student
+                        </button>
+                    </div>
+                </div>
+
+                <div class="filter-row">
+                    <div class="filter-search">
+                        <i data-lucide="search"></i>
+                        <input type="text" id="studentSearchInput" placeholder="Search by Enrollment No. or Name..." oninput="filterStudents()">
+                    </div>
+                    <select class="filter-select" id="batchFilter" onchange="filterStudents()">
+                        <option value="ALL">All Batches</option>
+                        <option value="A1">Batch A1</option>
+                        <option value="A2">Batch A2</option>
+                        <option value="A3">Batch A3</option>
+                    </select>
+                    <select class="filter-select" id="tutFilter" onchange="filterStudents()">
+                        <option value="ALL">All Tutorial / Project Groups</option>
+                        <option value="Tut-01">Tut-01 · Smart Campus App</option>
+                        <option value="Tut-02">Tut-02 · ML Healthcare</option>
+                        <option value="Tut-03">Tut-03 · Treva Feedback Portal</option>
+                        <option value="Tut-04">Tut-04 · Attendance Vision System</option>
+                        <option value="Tut-05">Tut-05 · IoT Weather Tracker</option>
+                    </select>
+                </div>
+
+                <div class="table-wrap">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Enrollment No.</th>
+                                <th>Student Name</th>
+                                <th>Batch</th>
+                                <th>Tutorial / Project Group</th>
+                                <th>Attendance</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentTableBody">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: TIMETABLE -->
+        <section class="section-view" id="sec-timetable">
+            <div class="panel">
+                <div class="panel-head">
+                    <div class="panel-title">
+                        <div class="panel-icon"><i data-lucide="calendar-clock"></i></div>
+                        <div>
+                            <h2>Class Timetable · CO31</h2>
+                            <p>Manage weekly day-wise schedule: Subject, Time, Faculty & Location</p>
+                        </div>
+                    </div>
+                    <button class="primary-action-btn" onclick="openTimetableModal()">
+                        <i data-lucide="plus"></i> Add Lecture Slot
+                    </button>
+                </div>
+
+                <div class="day-tabs">
+                    <button class="day-tab active" data-day="Mon" onclick="switchDay('Mon')">Monday</button>
+                    <button class="day-tab" data-day="Tue" onclick="switchDay('Tue')">Tuesday</button>
+                    <button class="day-tab" data-day="Wed" onclick="switchDay('Wed')">Wednesday</button>
+                    <button class="day-tab" data-day="Thu" onclick="switchDay('Thu')">Thursday</button>
+                    <button class="day-tab" data-day="Fri" onclick="switchDay('Fri')">Friday</button>
+                    <button class="day-tab" data-day="Sat" onclick="switchDay('Sat')">Saturday</button>
+                </div>
+
+                <div class="batch-tt-bar" style="display:flex; align-items:center; gap:8px; margin: 14px 0 16px 0; flex-wrap:wrap;">
+                    <span style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px;">
+                        Batch View:
+                    </span>
+                    <button class="batch-tt-chip active" data-batch="all" onclick="filterTTByBatch('all')">All Batches</button>
+                    <button class="batch-tt-chip" data-batch="CO311" onclick="filterTTByBatch('CO311')">CO311</button>
+                    <button class="batch-tt-chip" data-batch="CO312" onclick="filterTTByBatch('CO312')">CO312</button>
+                    <button class="batch-tt-chip" data-batch="CO313" onclick="filterTTByBatch('CO313')">CO313</button>
+                </div>
+
+                <div class="tt-grid" id="ttCardsContainer">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: EXAMS -->
+        <section class="section-view" id="sec-exams">
+            <div class="panel">
+                <div class="panel-head">
+                    <div class="panel-title">
+                        <div class="panel-icon"><i data-lucide="file-check-2"></i></div>
+                        <div>
+                            <h2>Class Examination & Assessments</h2>
+                            <p>Schedule mid-term exams, practical vivas and unit tests for CO31</p>
+                        </div>
+                    </div>
+                    <button class="primary-action-btn" onclick="openExamModal()">
+                        <i data-lucide="calendar-plus"></i> Create New Exam
+                    </button>
+                </div>
+
+                <div class="exam-grid" id="examGridContainer">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: GOOGLE DRIVE RESOURCES -->
+        <section class="section-view" id="sec-resources">
+            <div class="panel">
+                <div class="panel-head">
+                    <div class="panel-title">
+                        <div class="panel-icon"><i data-lucide="folder-symlink"></i></div>
+                        <div>
+                            <h2>Google Drive Learning Resources</h2>
+                            <p>Share Drive folders, lecture slide decks, syllabus, and assignment PDFs</p>
+                        </div>
+                    </div>
+                    <button class="primary-action-btn" onclick="openResourceModal()">
+                        <i data-lucide="link-2"></i> Add Google Drive Link
+                    </button>
+                </div>
+
+                <div class="gdrive-banner">
+                    <div class="gdrive-info">
+                        <div class="gdrive-icon-box">
+                            <svg viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg">
+                                <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/>
+                                <path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44c-.8 1.4-1.2 2.95-1.2 4.5h27.5z" fill="#00ac47"/>
+                                <path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/>
+                                <path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/>
+                                <path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h55.5c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/>
+                                <path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3>Cloud Storage Connected</h3>
+                            <p>Students can directly view or download coordinator files without account friction</p>
+                        </div>
+                    </div>
+                    <button class="primary-action-btn" style="background:#2563EB" onclick="window.open('https://drive.google.com','_blank')">
+                        <i data-lucide="external-link"></i> Open Google Drive
+                    </button>
+                </div>
+
+                <div class="resource-grid" id="resourceGridContainer">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: SETUP — Master Data (Rooms, Teachers, Subjects) -->
+        <section class="section-view" id="sec-setup">
+
+            <!-- ROOMS -->
+            <div class="panel" style="margin-bottom:20px">
+                <div class="panel-head">
+                    <div class="panel-title">
+                        <div class="panel-icon"><i data-lucide="door-open"></i></div>
+                        <div>
+                            <h2>Rooms &amp; Labs</h2>
+                            <p>Manage all available classrooms and labs. Room conflicts are detected cross-class.</p>
+                        </div>
+                    </div>
+                    <button class="primary-action-btn" onclick="openRoomModal()">
+                        <i data-lucide="plus"></i> Add Room / Lab
+                    </button>
+                </div>
+                <div id="roomsListContainer" class="setup-list"><!-- JS --></div>
+            </div>
+
+            <!-- TEACHERS -->
+            <div class="panel" style="margin-bottom:20px">
+                <div class="panel-head">
+                    <div class="panel-title">
+                        <div class="panel-icon"><i data-lucide="user-check"></i></div>
+                        <div>
+                            <h2>Faculty / Teachers</h2>
+                            <p>Add teaching staff to populate timetable faculty dropdown.</p>
+                        </div>
+                    </div>
+                    <button class="primary-action-btn" onclick="openTeacherModal()">
+                        <i data-lucide="plus"></i> Add Teacher
+                    </button>
+                </div>
+                <div id="teachersListContainer" class="setup-list"><!-- JS --></div>
+            </div>
+
+            <!-- SUBJECTS -->
+            <div class="panel">
+                <div class="panel-head">
+                    <div class="panel-title">
+                        <div class="panel-icon"><i data-lucide="book-open"></i></div>
+                        <div>
+                            <h2>Subjects</h2>
+                            <p>Define subject codes and names used in timetable and exams.</p>
+                        </div>
+                    </div>
+                    <button class="primary-action-btn" onclick="openSubjectModal()">
+                        <i data-lucide="plus"></i> Add Subject
+                    </button>
+                </div>
+                <div id="subjectsListContainer" class="setup-list"><!-- JS --></div>
+            </div>
+
+        </section>
+
+    </main>
+</div>
+
+<!-- MODAL: CREATE / DIVIDE BATCHES & TUTORIALS -->
+<div class="modal-overlay" id="batchDivideModal">
+    <div class="modal-card" style="max-width: 580px;">
+        <div class="modal-head">
+            <h3 id="batchDivideTitle"><i data-lucide="layers" style="width:20px;height:20px;vertical-align:middle;margin-right:6px;"></i> Create / Divide Batches & Tutorials</h3>
+            <button class="modal-close-btn" onclick="closeBatchDivideModal()"><i data-lucide="x"></i></button>
+        </div>
+        <form class="modal-form" id="batchDivideForm" onsubmit="handleApplyBatchDivision(event)">
+            <!-- 1. TARGET: BATCH VS TUTORIAL -->
+            <div class="form-group">
+                <label style="font-weight:600; margin-bottom:8px; display:block;">1. Select What to Divide / Assign *</label>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <button type="button" class="btn-toggle-type active" id="btnTypeBatch" onclick="setDivideType('batch')" style="padding:10px; border-radius:8px; border:2px solid var(--accent); background:var(--accent-subtle, rgba(56,189,248,0.12)); color:var(--text); font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+                        <i data-lucide="users"></i> Batch (e.g. CO311)
+                    </button>
+                    <button type="button" class="btn-toggle-type" id="btnTypeTut" onclick="setDivideType('tutorial')" style="padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--card-bg); color:var(--text-muted); font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+                        <i data-lucide="book-open"></i> Tutorial (e.g. T1)
+                    </button>
+                </div>
+            </div>
+
+            <!-- 2. TARGET NAME -->
+            <div class="form-group">
+                <label id="lblTargetName">Batch Name *</label>
+                <div style="display:flex; gap:8px;">
+                    <input type="text" id="targetGroupName" placeholder="e.g. CO311" required style="flex:1;" oninput="updateDividePreview()">
+                    <select id="quickSelectGroup" onchange="onQuickSelectGroup(this.value)" style="width:140px;">
+                        <option value="">(Existing)</option>
+                    </select>
+                </div>
+                <small style="color:var(--text-muted); font-size:12px;" id="helpTargetName">Type a new batch name (like CO311) or select an existing one.</small>
+            </div>
+
+            <!-- 3. DIVISION METHOD -->
+            <div class="form-group">
+                <label style="font-weight:600; margin-bottom:8px; display:block;">2. Choose Division Method *</label>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <button type="button" class="btn-toggle-method active" id="btnMethodRange" onclick="setDivideMethod('range')" style="padding:10px; border-radius:8px; border:2px solid var(--accent); background:var(--accent-subtle, rgba(56,189,248,0.12)); color:var(--text); font-weight:600; cursor:pointer; text-align:center;">
+                        Enrollment Range<br><span style="font-size:11px; font-weight:normal; color:var(--text-muted);">e.g. 2564...001 to 2564...030</span>
+                    </button>
+                    <button type="button" class="btn-toggle-method" id="btnMethodCount" onclick="setDivideMethod('count')" style="padding:10px; border-radius:8px; border:1px solid var(--border); background:var(--card-bg); color:var(--text-muted); font-weight:600; cursor:pointer; text-align:center;">
+                        Direct Count<br><span style="font-size:11px; font-weight:normal; color:var(--text-muted);">e.g. First 30 students</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- METHOD 1 FIELDS: ENROLLMENT RANGE -->
+            <div id="methodRangeFields">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Start Enrollment No. *</label>
+                        <input type="text" id="rangeStartEnroll" placeholder="e.g. 256400307001" oninput="updateDividePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>End Enrollment No. *</label>
+                        <input type="text" id="rangeEndEnroll" placeholder="e.g. 256400307030" oninput="updateDividePreview()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- METHOD 2 FIELDS: DIRECT COUNT -->
+            <div id="methodCountFields" style="display:none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Number of Students *</label>
+                        <input type="number" id="countNumber" min="1" max="500" value="30" placeholder="e.g. 30" oninput="updateDividePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>From Position / Offset</label>
+                        <select id="countOffset" onchange="updateDividePreview()">
+                            <option value="1">First N (from #1)</option>
+                            <option value="31">Next batch (from #31)</option>
+                            <option value="61">Next batch (from #61)</option>
+                            <option value="custom">Custom start position...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" id="customStartIndexGroup" style="display:none;">
+                    <label>Custom Start Student Position (1-indexed)</label>
+                    <input type="number" id="customStartIndex" min="1" value="1" placeholder="1" oninput="updateDividePreview()">
+                </div>
+            </div>
+
+            <!-- PREVIEW BOX -->
+            <div class="form-group" style="background:var(--card-bg, #ffffff); border:1px solid var(--border); border-radius:8px; padding:12px; margin-top:8px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                    <span style="font-weight:600; font-size:13px; color:var(--text);" id="previewHeader">Selected Students Preview</span>
+                    <span class="badge" id="previewCountBadge" style="background:var(--accent); color:#fff; font-size:12px; padding:2px 8px; border-radius:12px;">0 students</span>
+                </div>
+                <div id="previewStudentList" style="max-height:110px; overflow-y:auto; font-size:12px; color:var(--text-muted); line-height:1.6;">
+                    Select an enrollment range or student count to preview affected students.
+                </div>
+            </div>
+
+            <!-- SUBMIT BUTTONS -->
+            <div class="modal-foot" style="margin-top:14px;">
+                <button type="button" class="cancel-btn" onclick="closeBatchDivideModal()">Cancel</button>
+                <button type="submit" class="primary-action-btn" id="btnSubmitDivision">
+                    <i data-lucide="check"></i> Apply & Save to Database
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: ADD / EDIT STUDENT -->
+<div class="modal-overlay" id="studentModal">
+    <div class="modal-card">
+        <div class="modal-head">
+            <h3 id="studentModalTitle">Add New Student</h3>
+            <button class="modal-close-btn" onclick="closeStudentModal()"><i data-lucide="x"></i></button>
+        </div>
+        <form class="modal-form" id="studentForm" onsubmit="saveStudent(event)">
+            <input type="hidden" id="studentEditId">
+            <div class="form-group">
+                <label>Enrollment Number *</label>
+                <input type="text" id="studEnrollment" placeholder="e.g. 220010116001" required>
+            </div>
+            <div class="form-group">
+                <label>Full Student Name *</label>
+                <input type="text" id="studName" placeholder="e.g. Aryan Patel" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Batch *</label>
+                    <select id="studBatch" required>
+                        <option value="A1">Batch A1</option>
+                        <option value="A2">Batch A2</option>
+                        <option value="A3">Batch A3</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Tutorial / Project Group *</label>
+                    <select id="studTut" required>
+                        <option value="Tut-01">Tut-01 · Smart Campus App</option>
+                        <option value="Tut-02">Tut-02 · ML Healthcare</option>
+                        <option value="Tut-03">Tut-03 · Treva Feedback Portal</option>
+                        <option value="Tut-04">Tut-04 · Attendance Vision System</option>
+                        <option value="Tut-05">Tut-05 · IoT Weather Tracker</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Attendance Percentage (%)</label>
+                <input type="number" id="studAttendance" min="0" max="100" value="85" placeholder="85">
+            </div>
+            <div class="modal-foot">
+                <button type="button" class="cancel-btn" onclick="closeStudentModal()">Cancel</button>
+                <button type="submit" class="primary-action-btn">Save Student</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: DELETE CONFIRMATION -->
+<div class="modal-overlay" id="deleteConfirmModal">
+    <div class="modal-card" style="max-width: 440px; text-align: center; padding: 26px 22px;">
+        <div style="width: 54px; height: 54px; border-radius: 50%; background: rgba(239, 68, 68, 0.12); color: #ef4444; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px auto;">
+            <i data-lucide="alert-triangle" style="width: 28px; height: 28px;"></i>
+        </div>
+        <h3 style="font-size: 19px; font-weight: 700; margin-bottom: 6px; color: var(--text);">Delete Student Record?</h3>
+        <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 18px;">
+            Are you sure you want to permanently delete this student record? This will remove the student from the database and cannot be undone.
+        </p>
+
+        <!-- Student Summary Badge -->
+        <div style="background: var(--bg, #f8fafc); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 20px; text-align: left;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <span style="font-size: 12px; color: var(--text-muted);">Enrollment No:</span>
+                <strong style="font-size: 13px; font-family: monospace;" id="deleteConfirmEnroll">—</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <span style="font-size: 12px; color: var(--text-muted);">Student Name:</span>
+                <strong style="font-size: 13px;" id="deleteConfirmName">—</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: 12px; color: var(--text-muted);">Batch / Group:</span>
+                <span style="font-size: 12px; font-weight: 600;" id="deleteConfirmBatch">—</span>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <button type="button" class="cancel-btn" onclick="closeDeleteConfirmModal()" style="flex: 1; padding: 10px; border-radius: 8px; font-weight: 600;">Cancel</button>
+            <button type="button" id="btnExecuteDeleteStudent" onclick="confirmDeleteStudentAction()" style="flex: 1; padding: 10px; border-radius: 8px; font-weight: 600; background: #dc2626; color: #fff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <i data-lucide="trash-2" style="width: 16px; height: 16px;"></i> Delete Record
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL: UNIVERSAL / GENERIC CONFIRMATION -->
+<div class="modal-overlay" id="genericConfirmModal">
+    <div class="modal-card" style="max-width: 440px; text-align: center; padding: 26px 22px;">
+        <div id="genConfirmIconWrap" style="width: 54px; height: 54px; border-radius: 50%; background: rgba(239, 68, 68, 0.12); color: #ef4444; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px auto;">
+            <i id="genConfirmIcon" data-lucide="alert-triangle" style="width: 28px; height: 28px;"></i>
+        </div>
+        <h3 id="genConfirmTitle" style="font-size: 19px; font-weight: 700; margin-bottom: 6px; color: var(--text);">Confirm Action</h3>
+        <p id="genConfirmMessage" style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 18px;">
+            Are you sure you want to proceed with this action?
+        </p>
+
+        <!-- Dynamic Summary Badge / Key-Value Rows -->
+        <div id="genConfirmDetails" style="background: var(--bg, #f8fafc); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 20px; text-align: left; display: none;"></div>
+
+        <div style="display: flex; gap: 10px;">
+            <button type="button" class="cancel-btn" onclick="closeGenericConfirmModal()" style="flex: 1; padding: 10px; border-radius: 8px; font-weight: 600;">Cancel</button>
+            <button type="button" id="btnExecuteGenericConfirm" onclick="executeGenericConfirmAction()" style="flex: 1; padding: 10px; border-radius: 8px; font-weight: 600; background: #dc2626; color: #fff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <i data-lucide="trash-2" style="width: 16px; height: 16px;"></i> <span id="genConfirmBtnText">Confirm</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL: ADD / EDIT TIMETABLE SLOT -->
+<div class="modal-overlay" id="timetableModal">
+    <div class="modal-card">
+        <div class="modal-head">
+            <h3 id="ttModalTitle">Add Lecture / Lab Slot</h3>
+            <button class="modal-close-btn" onclick="closeTimetableModal()"><i data-lucide="x"></i></button>
+        </div>
+        <div id="ttConflictWarn" style="display:none; margin:0 0 12px; padding:10px 14px; background:#fef3c7; border:1.5px solid #f59e0b; border-radius:8px; color:#92400e; font-size:13px; font-weight:500;"></div>
+        <form class="modal-form" id="ttForm" onsubmit="saveTimetableSlot(event)">
+            <input type="hidden" id="ttEditId">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Day *</label>
+                    <select id="ttDay" required onchange="checkTTConflictLive()">
+                        <option value="Mon">Monday</option>
+                        <option value="Tue">Tuesday</option>
+                        <option value="Wed">Wednesday</option>
+                        <option value="Thu">Thursday</option>
+                        <option value="Fri">Friday</option>
+                        <option value="Sat">Saturday</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Session Type *</label>
+                    <select id="ttType" required>
+                        <option value="Lecture">Lecture</option>
+                        <option value="Lab">Practical Lab</option>
+                        <option value="Tutorial">Tutorial</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Subject *</label>
+                <select id="ttSubject" required>
+                    <option value="">&#8212; Select Subject &#8212;</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Time Slot *</label>
+                    <input type="text" id="ttTime" oninput="checkTTConflictLive()" placeholder="e.g. 09:00 AM – 10:00 AM" required>
+                </div>
+                <div class="form-group">
+                    <label>Room / Lab *</label>
+                    <select id="ttLocation" required onchange="checkTTConflictLive()">
+                        <option value="">&#8212; Select Room &#8212;</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Faculty *</label>
+                <select id="ttFaculty" required>
+                    <option value="">&#8212; Select Faculty &#8212;</option>
+                </select>
+            </div>
+            <div class="modal-foot">
+                <button type="button" class="cancel-btn" onclick="closeTimetableModal()">Cancel</button>
+                <button type="submit" class="primary-action-btn">Save Lecture Slot</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: CREATE EXAM -->
+<div class="modal-overlay" id="examModal">
+    <div class="modal-card">
+        <div class="modal-head">
+            <h3>Schedule Class Examination</h3>
+            <button class="modal-close-btn" onclick="closeExamModal()"><i data-lucide="x"></i></button>
+        </div>
+        <form class="modal-form" id="examForm" onsubmit="saveExam(event)">
+            <div class="form-group">
+                <label>Exam Title *</label>
+                <input type="text" id="examTitle" placeholder="e.g. Mid-Semester Examination I" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Subject *</label>
+                    <input type="text" id="examSubject" placeholder="e.g. Data Structures" required>
+                </div>
+                <div class="form-group">
+                    <label>Exam Type *</label>
+                    <select id="examType" required>
+                        <option value="Theory Exam">Theory Mid-Sem</option>
+                        <option value="Practical Viva">Practical Viva</option>
+                        <option value="Unit Test">Unit Test</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Date *</label>
+                    <input type="date" id="examDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Time *</label>
+                    <input type="text" id="examTime" placeholder="e.g. 10:30 AM – 12:30 PM" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Room / Seating Block *</label>
+                    <input type="text" id="examRoom" placeholder="e.g. Block 204 & 205" required>
+                </div>
+                <div class="form-group">
+                    <label>Total Marks</label>
+                    <input type="number" id="examMarks" value="30" placeholder="30">
+                </div>
+            </div>
+            <div class="modal-foot">
+                <button type="button" class="cancel-btn" onclick="closeExamModal()">Cancel</button>
+                <button type="submit" class="primary-action-btn">Schedule Exam</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: ADD GOOGLE DRIVE RESOURCE -->
+<div class="modal-overlay" id="resourceModal">
+    <div class="modal-card">
+        <div class="modal-head">
+            <h3>Add Google Drive Resource Link</h3>
+            <button class="modal-close-btn" onclick="closeResourceModal()"><i data-lucide="x"></i></button>
+        </div>
+        <form class="modal-form" id="resForm" onsubmit="saveResource(event)">
+            <div class="form-group">
+                <label>Resource Title *</label>
+                <input type="text" id="resTitle" placeholder="e.g. Unit 2: Trees & Binary Search Tree Slides" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Subject *</label>
+                    <input type="text" id="resSubject" placeholder="e.g. Data Structures" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="resCategory">
+                        <option value="Lecture Notes">Lecture Notes</option>
+                        <option value="Lab Manual">Lab Manual</option>
+                        <option value="Question Bank">Question Bank</option>
+                        <option value="Project Guidelines">Project Guidelines</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Google Drive Shareable URL *</label>
+                <input type="url" id="resUrl" placeholder="https://drive.google.com/drive/folders/..." required>
+            </div>
+            <div class="form-group">
+                <label>Description / Instructions</label>
+                <textarea id="resDesc" placeholder="e.g. Read Chapters 3-4 before practical session. Contains solved interview questions."></textarea>
+            </div>
+            <div class="modal-foot">
+                <button type="button" class="cancel-btn" onclick="closeResourceModal()">Cancel</button>
+                <button type="submit" class="primary-action-btn">Share Drive Link</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: ADD / EDIT ROOM -->
+<div class="modal-overlay" id="roomModal">
+    <div class="modal-card">
+        <div class="modal-head">
+            <h3 id="roomModalTitle">Add Room / Lab</h3>
+            <button class="modal-close-btn" onclick="closeRoomModal()"><i data-lucide="x"></i></button>
+        </div>
+        <form class="modal-form" id="roomForm" onsubmit="saveRoom(event)">
+            <input type="hidden" id="roomEditId">
+            <div class="form-group">
+                <label>Room / Lab Name *</label>
+                <input type="text" id="roomName" placeholder="e.g. Room 454 or Computer Lab 3" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Type *</label>
+                    <select id="roomType" required>
+                        <option value="Classroom">Classroom</option>
+                        <option value="Lab">Lab</option>
+                        <option value="Seminar">Seminar Hall</option>
+                        <option value="Project">Project Room</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Capacity (Students)</label>
+                    <input type="number" id="roomCapacity" min="1" max="500" value="30" placeholder="30">
+                </div>
+            </div>
+            <div class="modal-foot">
+                <button type="button" class="cancel-btn" onclick="closeRoomModal()">Cancel</button>
+                <button type="submit" class="primary-action-btn">Save Room</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: ADD / EDIT TEACHER -->
+<div class="modal-overlay" id="teacherModal">
+    <div class="modal-card">
+        <div class="modal-head">
+            <h3 id="teacherModalTitle">Add Teacher</h3>
+            <button class="modal-close-btn" onclick="closeTeacherModal()"><i data-lucide="x"></i></button>
+        </div>
+        <form class="modal-form" id="teacherForm" onsubmit="saveTeacher(event)">
+            <input type="hidden" id="teacherEditId">
+            <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" id="teacherName" placeholder="e.g. Prof. R. K. Patel" required>
+            </div>
+            <div class="form-group">
+                <label>Department *</label>
+                <input type="text" id="teacherDept" placeholder="e.g. Computer Engineering" required>
+            </div>
+            <div class="modal-foot">
+                <button type="button" class="cancel-btn" onclick="closeTeacherModal()">Cancel</button>
+                <button type="submit" class="primary-action-btn">Save Teacher</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: ADD / EDIT SUBJECT -->
+<div class="modal-overlay" id="subjectModal">
+    <div class="modal-card">
+        <div class="modal-head">
+            <h3 id="subjectModalTitle">Add Subject</h3>
+            <button class="modal-close-btn" onclick="closeSubjectModal()"><i data-lucide="x"></i></button>
+        </div>
+        <form class="modal-form" id="subjectForm" onsubmit="saveSubject(event)">
+            <input type="hidden" id="subjectEditId">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Subject Code *</label>
+                    <input type="text" id="subjectCode" placeholder="e.g. CS-301" required>
+                </div>
+                <div class="form-group">
+                    <label>Type *</label>
+                    <select id="subjectType" required>
+                        <option value="Theory">Theory</option>
+                        <option value="Theory+Lab">Theory + Lab</option>
+                        <option value="Lab">Lab Only</option>
+                        <option value="Tutorial">Tutorial</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Subject Name *</label>
+                <input type="text" id="subjectName" placeholder="e.g. Data Structures" required>
+            </div>
+            <div class="modal-foot">
+                <button type="button" class="cancel-btn" onclick="closeSubjectModal()">Cancel</button>
+                <button type="submit" class="primary-action-btn">Save Subject</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- =========================================================== -->
+<!-- MODAL: TAKE ATTENDANCE                                        -->
+<!-- =========================================================== -->
+<div class="modal-overlay att-modal-overlay" id="attendanceModal" onkeydown="handleAttModalKeydown(event)">
+    <div class="modal-card att-modal-card">
+
+        <!-- Header -->
+        <div class="modal-head att-modal-head">
+            <div class="att-modal-title-group">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <i data-lucide="clipboard-check" style="width:22px;height:22px;color:var(--primary)"></i>
+                    <div>
+                        <h3 id="attSlotTitle">Take Attendance</h3>
+                        <p id="attSlotMeta" style="font-size:12px; color:var(--text-muted); margin:0; font-weight:400;"></p>
+                    </div>
+                </div>
+                <div class="att-date-pill">
+                    <i data-lucide="calendar"></i>
+                    <span id="attDateDisplay"></span>
+                </div>
+            </div>
+            <button class="modal-close-btn" onclick="closeAttendanceModal()"><i data-lucide="x"></i></button>
+        </div>
+
+        <!-- Stats bar -->
+        <div class="att-stats-wrap">
+            <div id="attStatsBar" class="att-stats-bar"><!-- filled by JS --></div>
+            <div class="att-pct-track"><div id="attPctBar" class="att-pct-fill" style="width:0%"></div></div>
+        </div>
+
+        <!-- Controls row -->
+        <div class="att-controls-row">
+            <div class="att-search-wrap">
+                <i data-lucide="search"></i>
+                <input type="text" id="attSearchInput"
+                    placeholder="Type enrollment digits (e.g. 64) · press Enter to mark present…"
+                    oninput="handleAttSearch(this.value)"
+                    onkeydown="handleAttSearchKeydown(event)"
+                    autocomplete="off" spellcheck="false">
+                <span id="attJumpIndicator" style="display:none; font-size:12px; font-weight:700; color:var(--primary); padding:0 8px; background:var(--surface-tint); border-radius:6px; white-space:nowrap;"></span>
+            </div>
+            <div class="att-quick-btns">
+                <button class="att-quick-btn all-present" onclick="markAllPresent()" title="Mark everyone present">
+                    <i data-lucide="check-square"></i> All Present
+                </button>
+                <button class="att-quick-btn all-absent" onclick="markAllAbsent()" title="Mark everyone absent">
+                    <i data-lucide="square"></i> All Absent
+                </button>
+            </div>
+        </div>
+
+        <!-- Keyboard hint -->
+        <div class="att-kbd-hint">
+            <i data-lucide="keyboard"></i>
+            Type digits (e.g. <kbd>64</kbd>) + press <kbd>Enter</kbd> to mark present · <kbd>Space</kbd> to toggle · <kbd>Esc</kbd> to close
+        </div>
+
+        <!-- Student table -->
+        <div class="att-table-wrap">
+            <table class="att-table">
+                <thead>
+                    <tr>
+                        <th style="width:44px">#</th>
+                        <th>Enrollment No.</th>
+                        <th>Student Name</th>
+                        <th style="width:80px">Batch</th>
+                        <th style="width:120px; text-align:center">Attendance</th>
+                    </tr>
+                </thead>
+                <tbody id="attStudentList">
+                    <!-- Populated by JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="att-modal-foot">
+            <button class="cancel-btn" onclick="closeAttendanceModal()">Cancel</button>
+            <button class="primary-action-btn" onclick="saveAttendance()">
+                <i data-lucide="save"></i> Save Attendance
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- =========================================================== -->
+<!-- MODAL: ATTENDANCE HISTORY                                     -->
+<!-- =========================================================== -->
+<div class="modal-overlay" id="attHistoryModal">
+    <div class="modal-card" style="max-width:640px; width:96vw;">
+        <div class="modal-head">
+            <h3 id="attHistoryTitle">Attendance History</h3>
+            <button class="modal-close-btn" onclick="closeAttHistoryModal()"><i data-lucide="x"></i></button>
+        </div>
+        <div id="attHistoryContent" style="max-height:70vh; overflow-y:auto; padding:4px 0;">
+            <!-- Populated by JS -->
+        </div>
+        <div class="modal-foot" style="padding-top:12px; border-top:1px solid var(--border);">
+            <button class="cancel-btn" onclick="closeAttHistoryModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modular Scripts -->
+<script src="js/supabase.js?v=confirm_modal_v2"></script>
+<script src="js/theme-engine.js"></script>
+<script src="js/string-nav.js"></script>
+<script src="js/my-class.js?v=confirm_modal_v2"></script>
+
+</body>
+</html>

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treva Ecosystem · Teacher Portal</title>
+    <!-- Google Fonts: Inter, Poppins, Plus Jakarta Sans, Playfair Display, Space Grotesk, Merriweather -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Modular CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/string-nav.css">
+    <link rel="stylesheet" href="css/modals.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script>
+        (function() {
+            try {
+                var c = JSON.parse(localStorage.getItem('treva_portal_theme_config') || '{}');
+                if (c.preset) document.documentElement.classList.add('theme-' + c.preset.replace('_', '-'));
+                if (c.fontFamily) {
+                    var s = document.createElement('style');
+                    s.id = 'treva-font-override';
+                    s.textContent = 'body, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, span, a, td, th { font-family: ' + c.fontFamily + ' !important; }';
+                    document.head.appendChild(s);
+                }
+                if (c.fontSizeScale) {
+                    document.documentElement.style.fontSize = (16 * c.fontSizeScale) + 'px';
+                }
+            } catch(e) {}
+        })();
+    </script>
+</head>
+<body>
+
+<div class="shell">
+
+    <!-- ========== SIDEBAR WITH STRING NAV ========== -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="sidebar-brand-icon"><i data-lucide="graduation-cap"></i></div>
+            <span class="sidebar-brand-name">Treva Ecosystem</span>
+        </div>
+
+        <div class="sidebar-college" onclick="window.location.href='index.html'">
+            <span class="college-dot"></span>
+            <span class="college-name">R.C. Technical Institute</span>
+            <i data-lucide="chevron-down" class="college-chevron"></i>
+        </div>
+
+        <!-- VERTICAL STRING NAV -->
+        <div class="string-nav-wrapper" id="stringNavWrapper" data-active-index="0">
+            <canvas id="stringCv"></canvas>
+            <div class="string-nav-list" id="stringNavList">
+                <button class="string-nav-btn active" data-nav="0" data-tab="home" title="Home">
+                    <i data-lucide="house"></i> <span>Home</span>
+                </button>
+                <button class="string-nav-btn" data-nav="1" data-tab="myclass" title="My Class">
+                    <i data-lucide="users"></i> <span>My Class <span class="nav-sub">(Coord)</span></span>
+                </button>
+                <button class="string-nav-btn" data-nav="2" data-tab="analytics" title="Analytics">
+                    <i data-lucide="bar-chart-2"></i> <span>Analytics</span>
+                </button>
+                <button class="string-nav-btn" data-nav="3" data-tab="students" title="Students">
+                    <i data-lucide="graduation-cap"></i> <span>Students</span>
+                </button>
+                <button class="string-nav-btn" data-nav="4" data-tab="forms" title="Forms">
+                    <i data-lucide="file-text"></i> <span>Forms</span>
+                </button>
+                <button class="string-nav-btn" data-nav="5" data-tab="resources" title="Add Resources">
+                    <i data-lucide="plus-circle"></i> <span>Resources</span>
+                </button>
+                <button class="string-nav-btn" data-nav="6" data-tab="messages" title="Messages">
+                    <i data-lucide="message-circle"></i> <span>Messages</span>
+                    <span class="nav-badge">3</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="sidebar-cta">
+            <h4>Create Feedback</h4>
+            <p>Design forms for<br>your students</p>
+            <button class="sidebar-cta-btn" onclick="setNavActiveByName('forms')">+ Create Form</button>
+        </div>
+    </aside>
+
+    <!-- ========== MAIN AREA ========== -->
+    <main class="main">
+
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <div style="width:40px"></div>
+            <div class="search-box">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" placeholder="Search classes, students, resources...">
+            </div>
+            <div class="top-bar-right">
+                <button class="top-icon-btn" title="Notifications">
+                    <i data-lucide="bell"></i>
+                    <span class="notif-dot"></span>
+                </button>
+                <button class="top-icon-btn" title="Messages">
+                    <i data-lucide="mail"></i>
+                </button>
+                <button class="top-icon-btn" title="Settings" onclick="window.location.href='settings.html'">
+                    <i data-lucide="settings"></i>
+                </button>
+                <div class="profile-wrap">
+                    <button class="profile-avatar" id="profBtn">SP</button>
+                    <div class="profile-dropdown" id="profDD">
+                        <button class="dd-item" onclick="window.location.href='my_class.html'"><i data-lucide="users"></i> My Class (CO31)</button>
+                        <button class="dd-item"><i data-lucide="user"></i> Profile</button>
+                        <button class="dd-item" onclick="window.location.href='settings.html'"><i data-lucide="palette"></i> Theme Settings</button>
+                        <div class="dd-divider"></div>
+                        <button class="dd-item logout" onclick="TrevaSession.clear(); window.location.href='../temp_signinup/index1.html'"><i data-lucide="log-out"></i> Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WELCOME ROW -->
+        <div class="welcome-row">
+            <div class="welcome-text">
+                <h1 id="greetHeading">Welcome, Prof. Shah!</h1>
+                <p>Quickly access your classes, reports, inbox and timetable</p>
+            </div>
+            <div class="welcome-stats">
+                <div class="stat-item">
+                    <div class="stat-label">My Classes</div>
+                    <div class="stat-value">3</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Students</div>
+                    <div class="stat-value">186</div>
+                </div>
+                <button class="schedule-btn" onclick="window.location.href='my_class.html'">View Classes</button>
+            </div>
+        </div>
+
+        <!-- BENTO GRID -->
+        <div class="bento">
+
+            <!-- Card 1 — Profile / Class Card -->
+            <div class="card card-profile">
+                <div class="card-profile-top">
+                    <div class="card-profile-left">
+                        <div class="profile-initials" id="profileInitials">SP</div>
+                    </div>
+                    <div class="card-profile-right">
+                        <div class="profile-brand-row">
+                            <div class="profile-brand-icon"><i data-lucide="graduation-cap"></i></div>
+                            <span class="profile-brand-name">Treva Ecosystem</span>
+                        </div>
+                        <div class="profile-stat-area">
+                            <div class="profile-ring-wrap">
+                                <svg class="ring-svg" viewBox="0 0 110 110">
+                                    <circle class="ring-track" cx="55" cy="55" r="44"></circle>
+                                    <circle class="ring-progress" cx="55" cy="55" r="44"></circle>
+                                </svg>
+                                <div class="ring-text">
+                                    <div class="ring-val">60%</div>
+                                    <div class="ring-label">Attendance<br>Average</div>
+                                </div>
+                            </div>
+                            <div class="profile-stat-text">
+                                <h4 id="profileName">Prof. Shah</h4>
+                                <p>Computer Engg. Dept.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-progress">
+                    <span class="progress-text">My Class Reports</span>
+                    <div class="progress-track"><div class="progress-fill"></div></div>
+                    <span class="progress-frac">3/5 ✔</span>
+                </div>
+            </div>
+
+            <!-- Card 2 — Attendance Chart -->
+            <div class="card card-chart">
+                <div class="card-head">
+                    <h3>Attendance Analytics</h3>
+                    <button class="see-all" onclick="window.location.href='analytics.html'">See all</button>
+                </div>
+                <div class="chart-wrap">
+                    <canvas id="attendChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Card 3 — Notices / Inbox -->
+            <div class="card card-inbox">
+                <div class="card-head">
+                    <h3>Notice Board</h3>
+                    <button class="see-all">See all</button>
+                </div>
+                <div class="inbox-list">
+                    <div class="inbox-item">
+                        <span class="priority-dot high"></span>
+                        <div class="inbox-avatar" style="background:linear-gradient(135deg,#15803D,#22C55E)">MS</div>
+                        <div class="inbox-info">
+                            <div class="inbox-name">Mid-sem Exam Schedule</div>
+                            <div class="inbox-preview">Exam dates released for all departments</div>
+                        </div>
+                        <div class="inbox-meta">
+                            <span class="inbox-count">2h</span>
+                            <i data-lucide="clock"></i>
+                        </div>
+                    </div>
+                    <div class="inbox-item">
+                        <span class="priority-dot medium"></span>
+                        <div class="inbox-avatar" style="background:linear-gradient(135deg,#D97706,#FBBF24)">FM</div>
+                        <div class="inbox-info">
+                            <div class="inbox-name">Faculty Meeting Friday</div>
+                            <div class="inbox-preview">Mandatory attendance for all staff</div>
+                        </div>
+                        <div class="inbox-meta">
+                            <span class="inbox-count">1d</span>
+                            <i data-lucide="clock"></i>
+                        </div>
+                    </div>
+                    <div class="inbox-item">
+                        <span class="priority-dot high"></span>
+                        <div class="inbox-avatar" style="background:linear-gradient(135deg,#DC2626,#F87171)">GR</div>
+                        <div class="inbox-info">
+                            <div class="inbox-name">Submit Grades by Oct 15</div>
+                            <div class="inbox-preview">Final date for grade submission</div>
+                        </div>
+                        <div class="inbox-meta">
+                            <span class="inbox-count">3d</span>
+                            <i data-lucide="clock"></i>
+                        </div>
+                    </div>
+                    <div class="inbox-item">
+                        <span class="priority-dot low"></span>
+                        <div class="inbox-avatar" style="background:linear-gradient(135deg,#2563EB,#60A5FA)">WS</div>
+                        <div class="inbox-info">
+                            <div class="inbox-name">Workshop on AI in Education</div>
+                            <div class="inbox-preview">Register before Oct 20</div>
+                        </div>
+                        <div class="inbox-meta">
+                            <span class="inbox-count">5d</span>
+                            <i data-lucide="clock"></i>
+                        </div>
+                    </div>
+                    <div class="inbox-item">
+                        <span class="priority-dot medium"></span>
+                        <div class="inbox-avatar" style="background:linear-gradient(135deg,#7C3AED,#A78BFA)">LB</div>
+                        <div class="inbox-info">
+                            <div class="inbox-name">Library Book Returns</div>
+                            <div class="inbox-preview">Pending returns for this semester</div>
+                        </div>
+                        <div class="inbox-meta">
+                            <span class="inbox-count">1w</span>
+                            <i data-lucide="clock"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 — Today's Timetable -->
+            <div class="card card-timetable">
+                <div class="card-head">
+                    <h3>Today's Timetable</h3>
+                    <button class="see-all" onclick="window.location.href='my_class.html'">See all</button>
+                </div>
+                <div class="tt-header-row" id="dayChips">
+                    <button class="day-chip" data-day="0" onclick="pickDay(this)">Mon</button>
+                    <button class="day-chip" data-day="1" onclick="pickDay(this)">Tue</button>
+                    <button class="day-chip" data-day="2" onclick="pickDay(this)">Wed</button>
+                    <button class="day-chip" data-day="3" onclick="pickDay(this)">Thu</button>
+                    <button class="day-chip" data-day="4" onclick="pickDay(this)">Fri</button>
+                    <button class="day-chip" data-day="5" onclick="pickDay(this)">Sat</button>
+                </div>
+                <table class="tt-table">
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Class</th>
+                            <th>Time</th>
+                            <th>Room</th>
+                            <th style="text-align:right">Attendance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ttBody"></tbody>
+                </table>
+            </div>
+
+            <!-- Card 5 — Create Form CTA -->
+            <div class="card card-cta">
+                <div class="cta-left">
+                    <div class="cta-icon-box"><i data-lucide="clipboard-list"></i></div>
+                    <div class="cta-info">
+                        <h3>Create Feedback Form</h3>
+                        <p>Design and distribute feedback forms for your students</p>
+                    </div>
+                </div>
+                <button class="cta-create-btn" onclick="setNavActiveByName('forms')">
+                    <i data-lucide="plus" style="width:18px;height:18px"></i> Create Form
+                </button>
+            </div><!-- /card-cta -->
+        </div><!-- /bento -->
+    </main>
+</div><!-- /shell -->
+
+<!-- =========================================================== -->
+<!-- MODAL: TAKE ATTENDANCE (TEACHER TIMETABLE)                  -->
+<!-- =========================================================== -->
+<div class="modal-overlay att-modal-overlay" id="attendanceModal" onkeydown="handleAttModalKeydown(event)">
+    <div class="modal-card att-modal-card">
+
+        <!-- Header -->
+        <div class="modal-head att-modal-head">
+            <div class="att-modal-title-group">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <i data-lucide="clipboard-check" style="width:22px;height:22px;color:var(--primary)"></i>
+                    <div>
+                        <h3 id="attSlotTitle">Take Attendance</h3>
+                        <p id="attSlotMeta" style="font-size:12px; color:var(--text-muted); margin:0; font-weight:500;"></p>
+                    </div>
+                </div>
+                <div class="att-date-pill">
+                    <i data-lucide="calendar"></i>
+                    <span id="attDateDisplay"></span>
+                </div>
+            </div>
+            <button class="modal-close-btn" onclick="closeAttendanceModal()"><i data-lucide="x"></i></button>
+        </div>
+
+        <!-- Stats bar -->
+        <div class="att-stats-wrap">
+            <div id="attStatsBar" class="att-stats-bar"><!-- filled by JS --></div>
+            <div class="att-pct-track"><div id="attPctBar" class="att-pct-fill" style="width:0%"></div></div>
+        </div>
+
+        <!-- Controls row -->
+        <div class="att-controls-row">
+            <div class="att-search-wrap">
+                <i data-lucide="search"></i>
+                <input type="text" id="attSearchInput"
+                    placeholder="Type enrollment digits (e.g. 64) · press Enter to mark present…"
+                    oninput="handleAttSearch(this.value)"
+                    onkeydown="handleAttSearchKeydown(event)"
+                    autocomplete="off" spellcheck="false">
+                <span id="attJumpIndicator" style="display:none; font-size:12px; font-weight:700; color:var(--primary); padding:0 8px; background:var(--surface-tint); border-radius:6px; white-space:nowrap;"></span>
+            </div>
+            <div class="att-quick-btns">
+                <button class="att-quick-btn all-present" onclick="markAllPresent()" title="Mark everyone present">
+                    <i data-lucide="check-square"></i> All Present
+                </button>
+                <button class="att-quick-btn all-absent" onclick="markAllAbsent()" title="Mark everyone absent">
+                    <i data-lucide="square"></i> All Absent
+                </button>
+            </div>
+        </div>
+
+        <!-- Keyboard hint -->
+        <div class="att-kbd-hint">
+            <i data-lucide="keyboard"></i>
+            Type digits (e.g. <kbd>64</kbd>) + press <kbd>Enter</kbd> to mark present · <kbd>Space</kbd> to toggle · <kbd>Esc</kbd> to close
+        </div>
+
+        <!-- Student table -->
+        <div class="att-table-wrap">
+            <table class="att-table">
+                <thead>
+                    <tr>
+                        <th style="width:44px">#</th>
+                        <th>Enrollment No.</th>
+                        <th>Student Name</th>
+                        <th style="width:80px">Batch</th>
+                        <th style="width:130px; text-align:center">Attendance</th>
+                    </tr>
+                </thead>
+                <tbody id="attStudentList">
+                    <!-- Populated by JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="att-modal-foot">
+            <button class="cancel-btn" onclick="closeAttendanceModal()">Cancel</button>
+            <button class="primary-action-btn" onclick="saveAttendance()">
+                <i data-lucide="save"></i> Save Attendance
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modular Scripts -->
+<script src="js/supabase.js"></script>
+<script src="js/theme-engine.js"></script>
+<script src="js/string-nav.js"></script>
+<script src="js/dashboard.js"></script>
+
+</body>
+</html>

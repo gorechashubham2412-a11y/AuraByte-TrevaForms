@@ -1,0 +1,613 @@
+/* ==========================================================================
+   DASHBOARD / HOME PAGE SPECIFIC STYLES
+   ========================================================================== */
+
+/* ========== WELCOME ROW ========== */
+.welcome-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.welcome-text h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.5px;
+}
+
+.welcome-text p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.welcome-stats {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+.stat-item {
+    padding: 0 24px;
+    text-align: center;
+    border-right: 1px solid var(--border);
+}
+
+.stat-item:last-of-type {
+    border-right: none;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.schedule-btn {
+    margin-left: 20px;
+    padding: 12px 24px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-xs);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.15s;
+    white-space: nowrap;
+}
+
+.schedule-btn:hover {
+    background: var(--primary-light);
+    transform: translateY(-1px);
+}
+
+/* ========== BENTO GRID ========== */
+.bento {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    grid-template-rows: auto auto;
+    gap: 18px;
+}
+
+/* Card 1: Profile (Left) */
+.card-profile {
+    animation-delay: 0.05s;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-profile-top {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+}
+
+.card-profile-left {
+    width: 170px;
+    flex-shrink: 0;
+    position: relative;
+    background: var(--surface-subtle);
+    border-right: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: var(--radius) 0 0 0;
+}
+
+.profile-initials {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 34px;
+    font-weight: 800;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.card-profile-right {
+    flex: 1;
+    padding: 24px 20px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.profile-brand-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.profile-brand-icon {
+    width: 28px;
+    height: 28px;
+    background: var(--primary);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.profile-brand-icon i {
+    width: 14px;
+    height: 14px;
+}
+
+.profile-brand-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: -0.3px;
+}
+
+.profile-stat-area {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 6px;
+    flex: 1;
+}
+
+/* SVG Attendance Ring */
+.profile-ring-wrap {
+    position: relative;
+    width: 112px;
+    height: 112px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ring-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.ring-track {
+    fill: none;
+    stroke: var(--border-light);
+    stroke-width: 8;
+}
+
+.ring-progress {
+    fill: none;
+    stroke: var(--primary);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 276.46;
+    stroke-dashoffset: 110.58;
+    transition: stroke-dashoffset 0.8s ease;
+}
+
+.ring-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    text-align: center;
+}
+
+.ring-val {
+    font-size: 21px;
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1;
+}
+
+.ring-label {
+    font-size: 9.5px;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-top: 3px;
+    line-height: 1.15;
+}
+
+.profile-stat-text h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+}
+
+.profile-stat-text p {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.profile-progress {
+    width: 100%;
+    padding: 12px 20px;
+    background: var(--surface-subtle);
+    border-top: 1px solid var(--border-light);
+    border-radius: 0 0 var(--radius) var(--radius);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.progress-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--primary);
+    white-space: nowrap;
+}
+
+.progress-track {
+    flex: 1;
+    height: 6px;
+    background: var(--border-light);
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 50px;
+    width: 60%;
+}
+
+.progress-frac {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+/* Card 2: Attendance Area Chart (Top-Right) */
+.card-chart {
+    animation-delay: 0.1s;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-wrap {
+    flex: 1;
+    position: relative;
+    min-height: 220px;
+    margin-top: 4px;
+}
+
+.chart-wrap canvas {
+    width: 100%;
+    height: 100%;
+}
+
+/* Card 3: Notice Board (Bottom-Left) */
+.card-inbox {
+    animation-delay: 0.15s;
+}
+
+.inbox-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.inbox-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 6px;
+    border-bottom: 1px solid var(--border-light);
+    cursor: pointer;
+    transition: background 0.15s;
+    border-radius: var(--radius-xs);
+}
+
+.inbox-item:last-child {
+    border-bottom: none;
+}
+
+.inbox-item:hover {
+    background: var(--surface-active);
+}
+
+.inbox-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.inbox-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.inbox-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.inbox-preview {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.inbox-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.inbox-count {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.inbox-meta i {
+    width: 15px;
+    height: 15px;
+    color: var(--text-muted);
+}
+
+.priority-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.priority-dot.high { background: #EF4444; }
+.priority-dot.medium { background: #F59E0B; }
+.priority-dot.low { background: #3B82F6; }
+
+/* Card 4: Today's Timetable (Bottom-Right) */
+.card-timetable {
+    animation-delay: 0.2s;
+}
+
+.tt-header-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.day-chip {
+    padding: 5px 14px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: none;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+}
+
+.day-chip:hover {
+    background: var(--surface-subtle);
+    border-color: var(--border);
+    color: var(--text);
+}
+
+.day-chip.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+.tt-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tt-table thead th {
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.tt-table tbody tr {
+    transition: background 0.15s;
+    border-radius: var(--radius-xs);
+}
+
+.tt-table tbody tr:hover {
+    background: var(--surface-subtle);
+}
+
+.tt-table tbody tr.current-class {
+    background: var(--surface-active);
+}
+
+.tt-table tbody tr.current-class td {
+    color: var(--text);
+}
+
+.tt-table tbody tr.current-class .tt-sub-name {
+    color: var(--text);
+    font-weight: 700;
+}
+
+.tt-table tbody tr.current-class .tt-time {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.tt-table tbody td {
+    padding: 12px 10px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: middle;
+}
+
+.tt-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.tt-subject {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tt-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.tt-sub-info .tt-sub-name {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.tt-sub-info .tt-sub-code {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.tt-time {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.tt-free {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Card 5: Full Width CTA Banner */
+.card-cta {
+    grid-column: 1 / 3;
+    animation-delay: 0.25s;
+    background: var(--surface-subtle);
+    border: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 24px 28px;
+}
+
+.cta-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.cta-icon-box {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-tint);
+    border: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.cta-icon-box i {
+    width: 24px;
+    height: 24px;
+}
+
+.cta-info h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.cta-info p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.cta-create-btn {
+    padding: 12px 28px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-xs);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    transition: all 0.18s;
+    box-shadow: 0 2px 8px rgba(27,94,59,0.2);
+}
+
+.cta-create-btn:hover {
+    background: var(--primary-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(27,94,59,0.28);
+}
+
+/* Responsive Grid */
+@media (max-width: 1024px) {
+    .bento { grid-template-columns: 1fr; }
+    .card-cta { grid-column: 1; }
+    .welcome-stats { flex-wrap: wrap; }
+}
+
+@media (max-width: 640px) {
+    .welcome-row { flex-direction: column; align-items: flex-start; }
+    .card-cta { flex-direction: column; text-align: center; }
+    .cta-left { flex-direction: column; }
+    .card-profile-top { flex-direction: column; }
+    .card-profile-left { width: 100%; height: 110px; border-radius: var(--radius) var(--radius) 0 0; }
+}

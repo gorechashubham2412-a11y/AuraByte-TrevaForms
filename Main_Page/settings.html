@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treva Ecosystem · Theme & Appearance Settings</title>
+    <!-- Google Fonts: Inter, Poppins, Plus Jakarta Sans, Playfair Display, Space Grotesk, Merriweather -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Modular CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/string-nav.css">
+    <link rel="stylesheet" href="css/settings.css">
+    <link rel="stylesheet" href="css/modals.css">
+    <script>
+        (function() {
+            try {
+                var c = JSON.parse(localStorage.getItem('treva_portal_theme_config') || '{}');
+                if (c.preset) document.documentElement.classList.add('theme-' + c.preset.replace('_', '-'));
+                if (c.fontFamily) {
+                    var s = document.createElement('style');
+                    s.id = 'treva-font-override';
+                    s.textContent = 'body, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, span, a, td, th { font-family: ' + c.fontFamily + ' !important; }';
+                    document.head.appendChild(s);
+                }
+                if (c.fontSizeScale) {
+                    document.documentElement.style.fontSize = (16 * c.fontSizeScale) + 'px';
+                }
+            } catch(e) {}
+        })();
+    </script>
+</head>
+<body>
+
+<div class="shell">
+
+    <!-- ========== SIDEBAR WITH STRING NAV ========== -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="sidebar-brand-icon"><i data-lucide="graduation-cap"></i></div>
+            <span class="sidebar-brand-name">Treva Ecosystem</span>
+        </div>
+
+        <div class="sidebar-college" onclick="window.location.href='index.html'">
+            <span class="college-dot"></span>
+            <span class="college-name">R.C. Technical Institute</span>
+            <i data-lucide="chevron-down" class="college-chevron"></i>
+        </div>
+
+        <!-- VERTICAL STRING NAV -->
+        <div class="string-nav-wrapper" id="stringNavWrapper" data-active-index="0">
+            <canvas id="stringCv"></canvas>
+            <div class="string-nav-list" id="stringNavList">
+                <button class="string-nav-btn" data-nav="0" data-tab="home" title="Home">
+                    <i data-lucide="house"></i> <span>Home</span>
+                </button>
+                <button class="string-nav-btn" data-nav="1" data-tab="myclass" title="My Class">
+                    <i data-lucide="users"></i> <span>My Class <span class="nav-sub">(Coord)</span></span>
+                </button>
+                <button class="string-nav-btn" data-nav="2" data-tab="analytics" title="Analytics">
+                    <i data-lucide="bar-chart-2"></i> <span>Analytics</span>
+                </button>
+                <button class="string-nav-btn" data-nav="3" data-tab="students" title="Students">
+                    <i data-lucide="graduation-cap"></i> <span>Students</span>
+                </button>
+                <button class="string-nav-btn" data-nav="4" data-tab="forms" title="Forms">
+                    <i data-lucide="file-text"></i> <span>Forms</span>
+                </button>
+                <button class="string-nav-btn" data-nav="5" data-tab="resources" title="Add Resources">
+                    <i data-lucide="plus-circle"></i> <span>Resources</span>
+                </button>
+                <button class="string-nav-btn" data-nav="6" data-tab="messages" title="Messages">
+                    <i data-lucide="message-circle"></i> <span>Messages</span>
+                    <span class="nav-badge">3</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="sidebar-cta">
+            <h4>Live Theme Sync</h4>
+            <p>Changes apply instantly across all pages</p>
+            <button class="sidebar-cta-btn" onclick="window.location.href='index.html'">View On Dashboard</button>
+        </div>
+    </aside>
+
+    <!-- ========== MAIN CONTENT AREA ========== -->
+    <main class="main">
+
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <button class="top-icon-btn" onclick="window.location.href='index.html'" title="Back to Dashboard">
+                <i data-lucide="arrow-left"></i>
+            </button>
+            <div class="search-box">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" placeholder="Search settings, themes, fonts, color tokens...">
+            </div>
+            <div class="top-bar-right">
+                <button class="top-icon-btn" title="Notifications">
+                    <i data-lucide="bell"></i>
+                    <span class="notif-dot"></span>
+                </button>
+                <button class="top-icon-btn" title="Messages" onclick="window.location.href='index.html'">
+                    <i data-lucide="mail"></i>
+                </button>
+                <button class="top-icon-btn" title="Settings" style="color:var(--primary); background:var(--green-50)">
+                    <i data-lucide="palette"></i>
+                </button>
+                <div class="profile-wrap">
+                    <button class="profile-avatar" id="profBtn">SP</button>
+                    <div class="profile-dropdown" id="profDD">
+                        <button class="dd-item" onclick="window.location.href='index.html'"><i data-lucide="home"></i> Home Dashboard</button>
+                        <button class="dd-item" onclick="window.location.href='my_class.html'"><i data-lucide="users"></i> My Class (CO31)</button>
+                        <button class="dd-item" onclick="window.location.href='settings.html'"><i data-lucide="settings"></i> Theme Settings</button>
+                        <div class="dd-divider"></div>
+                        <button class="dd-item logout" onclick="alert('Logged out!')"><i data-lucide="log-out"></i> Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Studio Header -->
+        <div class="card" style="margin-bottom:24px; padding:24px 28px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;">
+            <div>
+                <h1 style="font-size:24px; font-weight:800; color:var(--text); letter-spacing:-0.4px;">Theme & Appearance Studio</h1>
+                <p style="font-size:13.5px; color:var(--text-muted); margin-top:3px;">Select preset aesthetic styles, customize element colors individually, or alter typography & scaling across the portal</p>
+            </div>
+            <button class="primary-action-btn" onclick="window.location.href='index.html'">
+                <i data-lucide="external-link"></i> Launch Live Portal
+            </button>
+        </div>
+
+        <!-- Two Column Studio Layout -->
+        <div class="settings-grid">
+
+            <!-- LEFT COLUMN: CONTROLS -->
+            <div class="settings-left-col">
+
+                <!-- 1. PRESET THEMES -->
+                <div class="card" style="margin-bottom:24px;">
+                    <div class="settings-section-head">
+                        <div>
+                            <h2><i data-lucide="sparkles" style="color:var(--primary)"></i> Theme Presets</h2>
+                            <p>Switch between modern UI styles including Glassmorphism, Claymorphism, Neo-Brutalism & more</p>
+                        </div>
+                    </div>
+                    <div class="theme-presets-grid" id="themePresetsGrid">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                </div>
+
+                <!-- 2. ELEMENT COLOR CUSTOMIZER -->
+                <div class="color-controls-box">
+                    <div class="settings-section-head">
+                        <div>
+                            <h2><i data-lucide="palette" style="color:var(--primary)"></i> Granular Element Color Overrides</h2>
+                            <p>Fine-tune individual CSS tokens or select from quick accent palettes</p>
+                        </div>
+                    </div>
+
+                    <!-- Quick Palette Accents -->
+                    <div class="quick-palette-row">
+                        <span class="quick-palette-label">Quick Accents:</span>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap" id="quickPaletteSwatches">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Individual Color Variables -->
+                    <div class="element-color-grid" id="elementColorGrid">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                </div>
+
+                <!-- 3. TYPOGRAPHY & FONT SIZE -->
+                <div class="typography-box">
+                    <div class="settings-section-head">
+                        <div>
+                            <h2><i data-lucide="type" style="color:var(--primary)"></i> Typography & Text Scale</h2>
+                            <p>Select your preferred font family and scale text size across the application</p>
+                        </div>
+                    </div>
+
+                    <div class="font-picker-grid" id="fontOptionsGrid">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+
+                    <div class="font-size-slider-row">
+                        <label for="fontSizeSlider">Font Scale</label>
+                        <input type="range" class="size-range-input" id="fontSizeSlider" min="0.85" max="1.25" step="0.05" value="1.0">
+                        <span class="size-scale-badge" id="fontSizeBadge">100%</span>
+                    </div>
+                </div>
+
+                <!-- Reset Bar -->
+                <div class="settings-reset-bar">
+                    <div>
+                        <strong style="font-size:14px; color:var(--text)">Restore Factory Settings</strong>
+                        <p style="font-size:12px; color:var(--text-muted)">Discard all custom overrides and return to default Sage Green SaaS</p>
+                    </div>
+                    <button class="reset-btn" onclick="resetThemeStudio()">
+                        <i data-lucide="rotate-ccw"></i> Reset to Default
+                    </button>
+                </div>
+
+            </div><!-- /settings-left-col -->
+
+            <!-- RIGHT COLUMN: STICKY LIVE PREVIEW -->
+            <div class="settings-right-col">
+                <div class="live-preview-panel">
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                        <span style="font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">Live Interactive Preview</span>
+                        <span class="preview-badge-pill" id="previewPresetName">Default</span>
+                    </div>
+
+                    <!-- Preview Sample Card -->
+                    <div class="preview-card-sample">
+                        <div class="preview-user-row">
+                            <div class="preview-avatar">SP</div>
+                            <div class="preview-user-info">
+                                <h4>Prof. Shah</h4>
+                                <p>Computer Engg. Dept.</p>
+                            </div>
+                        </div>
+
+                        <div class="preview-stat-card">
+                            <span class="preview-stat-label">Active Coordinator</span>
+                            <span class="preview-stat-val">CO31</span>
+                        </div>
+
+                        <div class="preview-stat-card">
+                            <span class="preview-stat-label">Attendance Rate</span>
+                            <span class="preview-stat-val" style="color:var(--primary)">88%</span>
+                        </div>
+
+                        <div style="font-size:13px; color:var(--text-secondary); line-height:1.4;">
+                            Live preview renders with active card shadows, border radius, font family and primary tints.
+                        </div>
+
+                        <div class="preview-actions-row">
+                            <button class="preview-sample-btn">Primary Action</button>
+                            <button class="preview-outline-btn">Outline</button>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:20px; padding:14px; background:var(--bg); border-radius:var(--radius-xs); border:1px solid var(--border)">
+                        <div style="display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--text); font-weight:600;">
+                            <i data-lucide="check-circle-2" style="width:16px; height:16px; color:var(--primary)"></i>
+                            <span>Synced across all pages</span>
+                        </div>
+                        <p style="font-size:11.5px; color:var(--text-muted); margin-top:4px; line-height:1.4;">
+                            Theme configurations are automatically saved in browser local storage and loaded globally.
+                        </p>
+                    </div>
+                </div>
+            </div><!-- /settings-right-col -->
+
+        </div><!-- /settings-grid -->
+
+    </main>
+</div><!-- /shell -->
+
+<!-- MODAL: UNIVERSAL / GENERIC CONFIRMATION -->
+<div class="modal-overlay" id="genericConfirmModal">
+    <div class="modal-card" style="max-width: 440px; text-align: center; padding: 26px 22px;">
+        <div id="genConfirmIconWrap" style="width: 54px; height: 54px; border-radius: 50%; background: rgba(239, 68, 68, 0.12); color: #ef4444; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px auto;">
+            <i id="genConfirmIcon" data-lucide="alert-triangle" style="width: 28px; height: 28px;"></i>
+        </div>
+        <h3 id="genConfirmTitle" style="font-size: 19px; font-weight: 700; margin-bottom: 6px; color: var(--text);">Confirm Action</h3>
+        <p id="genConfirmMessage" style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 18px;">
+            Are you sure you want to proceed with this action?
+        </p>
+
+        <!-- Dynamic Summary Badge / Key-Value Rows -->
+        <div id="genConfirmDetails" style="background: var(--bg, #f8fafc); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 20px; text-align: left; display: none;"></div>
+
+        <div style="display: flex; gap: 10px;">
+            <button type="button" class="cancel-btn" onclick="closeGenericConfirmModal()" style="flex: 1; padding: 10px; border-radius: 8px; font-weight: 600;">Cancel</button>
+            <button type="button" id="btnExecuteGenericConfirm" onclick="executeGenericConfirmAction()" style="flex: 1; padding: 10px; border-radius: 8px; font-weight: 600; background: #dc2626; color: #fff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <i data-lucide="trash-2" style="width: 16px; height: 16px;"></i> <span id="genConfirmBtnText">Confirm</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modular Scripts -->
+<script src="js/theme-engine.js"></script>
+<script src="js/string-nav.js"></script>
+<script src="js/settings.js?v=confirm_modal_v2"></script>
+
+</body>
+</html>

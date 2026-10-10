@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treva Ecosystem · Students Directory & Attendance Sheet</title>
+    <!-- Google Fonts: Inter, Poppins, Plus Jakarta Sans, Playfair Display, Space Grotesk, Merriweather -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Modular CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/string-nav.css">
+    <link rel="stylesheet" href="css/modals.css">
+    <link rel="stylesheet" href="css/students.css">
+    <script>
+        (function() {
+            try {
+                var c = JSON.parse(localStorage.getItem('treva_portal_theme_config') || '{}');
+                if (c.preset) document.documentElement.classList.add('theme-' + c.preset.replace('_', '-'));
+                if (c.fontFamily) {
+                    var s = document.createElement('style');
+                    s.id = 'treva-font-override';
+                    s.textContent = 'body, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, span, a, td, th { font-family: ' + c.fontFamily + ' !important; }';
+                    document.head.appendChild(s);
+                }
+                if (c.fontSizeScale) {
+                    document.documentElement.style.fontSize = (16 * c.fontSizeScale) + 'px';
+                }
+            } catch(e) {}
+        })();
+    </script>
+</head>
+<body>
+
+<div class="shell">
+
+    <!-- ========== SIDEBAR WITH STRING NAV ========== -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="sidebar-brand-icon"><i data-lucide="graduation-cap"></i></div>
+            <span class="sidebar-brand-name">Treva Ecosystem</span>
+        </div>
+
+        <div class="sidebar-college" onclick="window.location.href='index.html'">
+            <span class="college-dot"></span>
+            <span class="college-name">R.C. Technical Institute</span>
+            <i data-lucide="chevron-down" class="college-chevron"></i>
+        </div>
+
+        <!-- VERTICAL STRING NAV (ACTIVE = 3: STUDENTS) -->
+        <div class="string-nav-wrapper" id="stringNavWrapper" data-active-index="3">
+            <canvas id="stringCv"></canvas>
+            <div class="string-nav-list" id="stringNavList">
+                <button class="string-nav-btn" data-nav="0" data-tab="home" title="Home">
+                    <i data-lucide="house"></i> <span>Home</span>
+                </button>
+                <button class="string-nav-btn" data-nav="1" data-tab="myclass" title="My Class">
+                    <i data-lucide="users"></i> <span>My Class <span class="nav-sub">(Coord)</span></span>
+                </button>
+                <button class="string-nav-btn" data-nav="2" data-tab="analytics" title="Analytics">
+                    <i data-lucide="bar-chart-2"></i> <span>Analytics</span>
+                </button>
+                <button class="string-nav-btn active" data-nav="3" data-tab="students" title="Students">
+                    <i data-lucide="graduation-cap"></i> <span>Students</span>
+                </button>
+                <button class="string-nav-btn" data-nav="4" data-tab="forms" title="Forms">
+                    <i data-lucide="file-text"></i> <span>Forms</span>
+                </button>
+                <button class="string-nav-btn" data-nav="5" data-tab="resources" title="Add Resources">
+                    <i data-lucide="plus-circle"></i> <span>Resources</span>
+                </button>
+                <button class="string-nav-btn" data-nav="6" data-tab="messages" title="Messages">
+                    <i data-lucide="message-circle"></i> <span>Messages</span>
+                    <span class="nav-badge">3</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="sidebar-cta">
+            <h4>Quick Export</h4>
+            <p>Download Excel sheet<br>attendance audit</p>
+            <button class="sidebar-cta-btn" onclick="exportMatrixCSV()">+ Export Sheet</button>
+        </div>
+    </aside>
+
+    <!-- ========== MAIN CONTENT AREA ========== -->
+    <main class="main">
+
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <div style="width:40px"></div>
+            <div class="search-box">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" id="topSearchInput" placeholder="Quick search student name or enrollment…" oninput="handleGlobalSearch(this.value)">
+            </div>
+            <div class="top-bar-right">
+                <button class="top-icon-btn" title="Notifications">
+                    <i data-lucide="bell"></i>
+                    <span class="notif-dot"></span>
+                </button>
+                <button class="top-icon-btn" title="Messages">
+                    <i data-lucide="mail"></i>
+                </button>
+                <button class="top-icon-btn" title="Settings" onclick="window.location.href='settings.html'">
+                    <i data-lucide="settings"></i>
+                </button>
+                <div class="profile-wrap">
+                    <button class="profile-avatar" id="profBtn">SP</button>
+                    <div class="profile-dropdown" id="profDD">
+                        <button class="dd-item" onclick="window.location.href='index.html'"><i data-lucide="house"></i> Home Dashboard</button>
+                        <button class="dd-item" onclick="window.location.href='my_class.html'"><i data-lucide="users"></i> My Class (CO31)</button>
+                        <button class="dd-item" onclick="window.location.href='analytics.html'"><i data-lucide="bar-chart-2"></i> Attendance Analytics</button>
+                        <button class="dd-item" onclick="window.location.href='settings.html'"><i data-lucide="palette"></i> Theme Settings</button>
+                        <div class="dd-divider"></div>
+                        <button class="dd-item logout" onclick="alert('Logged out!')"><i data-lucide="log-out"></i> Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE BANNER WITH VIEW SWITCHER -->
+        <div class="students-banner">
+            <div class="students-banner-left">
+                <h1><i data-lucide="graduation-cap"></i> Students Master Directory &amp; Attendance Sheet</h1>
+                <p>Complete descriptive student records, semester batch mapping, and interactive date-wise attendance matrix.</p>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                <div class="view-mode-toggle">
+                    <button class="view-mode-btn active" id="btnViewRoster" onclick="switchViewMode('roster')">
+                        <i data-lucide="table-properties"></i> Detailed Roster
+                    </button>
+                    <button class="view-mode-btn" id="btnViewMatrix" onclick="switchViewMode('matrix')">
+                        <i data-lucide="grid-3x3"></i> Excel Attendance Sheet
+                    </button>
+                </div>
+                <button class="primary-action-btn" onclick="openAddStudentModal()" style="padding:9px 16px; font-size:13px;">
+                    <i data-lucide="user-plus"></i> + Add Student
+                </button>
+            </div>
+        </div>
+
+        <!-- FILTER TOOLBAR -->
+        <div class="students-filter-card">
+            <div class="students-filter-row">
+                <!-- Class -->
+                <div class="filter-input-group">
+                    <label>Class</label>
+                    <select id="filterClass" onchange="onClassFilterChange()">
+                        <option value="ALL">All Classes (CO31, 32, 33, 34)</option>
+                        <option value="CO31">Class CO31</option>
+                        <option value="CO32">Class CO32</option>
+                        <option value="CO33">Class CO33</option>
+                        <option value="CO34">Class CO34</option>
+                    </select>
+                </div>
+
+                <!-- Semester -->
+                <div class="filter-input-group">
+                    <label>Semester</label>
+                    <select id="filterSem" onchange="applyStudentsFilters()">
+                        <option value="ALL">All Semesters</option>
+                        <option value="Sem 3">Semester 3</option>
+                        <option value="Sem 5">Semester 5</option>
+                    </select>
+                </div>
+
+                <!-- Batch -->
+                <div class="filter-input-group">
+                    <label>Batch</label>
+                    <select id="filterBatch" onchange="applyStudentsFilters()">
+                        <option value="ALL">All Batches</option>
+                        <option value="CO311">Batch CO311</option>
+                        <option value="CO312">Batch CO312</option>
+                        <option value="CO321">Batch CO321</option>
+                        <option value="CO322">Batch CO322</option>
+                        <option value="CO331">Batch CO331</option>
+                        <option value="CO332">Batch CO332</option>
+                        <option value="CO341">Batch CO341</option>
+                    </select>
+                </div>
+
+                <!-- Tutorial -->
+                <div class="filter-input-group">
+                    <label>Tutorial Group</label>
+                    <select id="filterTut" onchange="applyStudentsFilters()">
+                        <option value="ALL">All Tutorials</option>
+                        <option value="T1">Tutorial T1</option>
+                        <option value="T2">Tutorial T2</option>
+                        <option value="T3">Tutorial T3</option>
+                    </select>
+                </div>
+
+                <!-- Search Input -->
+                <div class="filter-input-group" style="flex:1.4">
+                    <label>Search Student</label>
+                    <input type="text" id="filterSearch" placeholder="Type enrollment (e.g. 64) or name…" oninput="applyStudentsFilters()">
+                </div>
+
+                <button class="filter-reset-btn" onclick="resetStudentsFilters()" title="Reset filters">
+                    <i data-lucide="rotate-ccw" style="width:14px;height:14px"></i> Reset
+                </button>
+            </div>
+        </div>
+
+        <!-- ======================================================= -->
+        <!-- VIEW 1: DETAILED STUDENT ROSTER TABLE                  -->
+        <!-- ======================================================= -->
+        <div id="viewRosterSection" class="roster-card">
+            <div class="roster-card-head">
+                <div>
+                    <h3>Detailed Student Directory</h3>
+                    <p style="font-size:12.5px; color:var(--text-muted); margin-top:2px;" id="rosterCountText">Showing 0 students</p>
+                </div>
+                <div>
+                    <button class="export-btn secondary" onclick="exportMatrixCSV()" style="padding:7px 14px; font-size:12px;">
+                        <i data-lucide="download"></i> Export Student List
+                    </button>
+                </div>
+            </div>
+
+            <div class="roster-table-wrap">
+                <table class="roster-table">
+                    <thead>
+                        <tr>
+                            <th style="width:40px">#</th>
+                            <th>Enrollment No.</th>
+                            <th>Student Name</th>
+                            <th>Semester</th>
+                            <th>Class</th>
+                            <th>Batch</th>
+                            <th>Tutorial</th>
+                            <th>Attendance</th>
+                            <th style="text-align:right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rosterTableBody">
+                        <!-- Filled by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ======================================================= -->
+        <!-- VIEW 2: EXCEL SHEET STYLE DATE-WISE ATTENDANCE MATRIX   -->
+        <!-- ======================================================= -->
+        <div id="viewMatrixSection" class="excel-matrix-card" style="display:none;">
+            <div class="excel-matrix-head">
+                <div>
+                    <h3 style="font-size:16px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:8px;">
+                        <i data-lucide="table" style="width:18px;height:18px;color:var(--primary)"></i>
+                        Date-Wise Descriptive Attendance Sheet
+                    </h3>
+                    <p style="font-size:12.5px; color:var(--text-muted); margin-top:2px;">
+                        Columns represent lecture dates. Cells display attended/total lectures (e.g. <strong>4/5</strong>). Click any cell to view that day's lecture timetable breakdown!
+                    </p>
+                </div>
+                <div class="matrix-legend">
+                    <div class="matrix-legend-item"><span class="matrix-legend-dot full"></span> <span>Full (e.g. 5/5)</span></div>
+                    <div class="matrix-legend-item"><span class="matrix-legend-dot partial"></span> <span>Partial (e.g. 3/5)</span></div>
+                    <div class="matrix-legend-item"><span class="matrix-legend-dot low"></span> <span>Low / 0 (e.g. 0/5)</span></div>
+                    <button class="export-btn primary" onclick="exportMatrixCSV()" style="padding:6px 14px; font-size:12px; margin-left:8px;">
+                        <i data-lucide="file-spreadsheet"></i> Export Sheet
+                    </button>
+                </div>
+            </div>
+
+            <div class="excel-table-container">
+                <table class="excel-matrix-table" id="matrixTable">
+                    <thead id="matrixHead">
+                        <!-- Populated by JS -->
+                    </thead>
+                    <tbody id="matrixBody">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+</div><!-- /shell -->
+
+<!-- =========================================================== -->
+<!-- MODAL 1: DAY TIMETABLE & LECTURE ATTENDANCE BREAKDOWN       -->
+<!-- =========================================================== -->
+<div class="modal-overlay" id="dayBreakdownModal">
+    <div class="modal-card day-breakdown-card">
+        <div class="modal-head day-breakdown-head">
+            <div>
+                <h3 id="breakdownDateTitle" style="font-size:17px; font-weight:700; color:var(--text);">Attendance Breakdown</h3>
+                <p id="breakdownStudentMeta" style="font-size:12.5px; color:var(--text-muted); margin-top:2px;"></p>
+            </div>
+            <button class="modal-close-btn" onclick="closeDayBreakdownModal()"><i data-lucide="x"></i></button>
+        </div>
+
+        <div class="day-breakdown-body">
+            <div class="day-breakdown-summary">
+                <span id="breakdownDayName">Friday Schedule</span>
+                <span id="breakdownScoreBadge" style="color:var(--primary); font-weight:700;">4 / 5 Lectures Attended (80%)</span>
+            </div>
+
+            <div class="day-lectures-list" id="dayLecturesList">
+                <!-- Filled by JS -->
+            </div>
+        </div>
+
+        <div class="att-modal-foot">
+            <button class="primary-action-btn" onclick="closeDayBreakdownModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- =========================================================== -->
+<!-- MODAL 2: ACADEMIC RESULT DETAILS                            -->
+<!-- =========================================================== -->
+<div class="modal-overlay" id="resultModal">
+    <div class="modal-card result-card-modal">
+        <div class="modal-head">
+            <div>
+                <h3 id="resultStudentName">Academic Performance &amp; Results</h3>
+                <p id="resultStudentEnroll" style="font-size:12.5px; color:var(--text-muted);"></p>
+            </div>
+            <button class="modal-close-btn" onclick="closeResultModal()"><i data-lucide="x"></i></button>
+        </div>
+
+        <div class="result-gpa-banner">
+            <div>
+                <div style="font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; opacity:0.9;">Semester SPI / SGPA</div>
+                <div class="result-gpa-val" id="resultGpaVal">8.64</div>
+                <div style="font-size:12px; opacity:0.85;">Current Semester Performance · First Class with Distinction</div>
+            </div>
+            <div style="text-align:right;">
+                <div style="font-size:12px; opacity:0.9;">Cumulative CGPA</div>
+                <div style="font-size:24px; font-weight:800;" id="resultCgpaVal">8.48</div>
+            </div>
+        </div>
+
+        <h4 style="font-size:14px; font-weight:700; color:var(--text); margin-bottom:10px;">Subject-Wise Grades &amp; Mid-Sem Evaluation</h4>
+        <table class="result-table">
+            <thead>
+                <tr>
+                    <th>Subject Code</th>
+                    <th>Subject Name</th>
+                    <th>Mid-Sem (30)</th>
+                    <th>Continuous Eval (20)</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            <tbody id="resultSubjectsBody">
+                <!-- Filled by JS -->
+            </tbody>
+        </table>
+
+        <div class="att-modal-foot" style="margin-top:20px;">
+            <button class="primary-action-btn" onclick="closeResultModal()">Done</button>
+        </div>
+    </div>
+</div>
+
+<!-- =========================================================== -->
+<!-- MODAL 3: EDIT / ADD STUDENT DETAILS                         -->
+<!-- =========================================================== -->
+<div class="modal-overlay" id="editStudentModal">
+    <div class="modal-card" style="max-width:540px;">
+        <div class="modal-head">
+            <h3 id="editModalTitle">Edit Student Profile</h3>
+            <button class="modal-close-btn" onclick="closeEditStudentModal()"><i data-lucide="x"></i></button>
+        </div>
+        <form onsubmit="handleSaveStudent(event)" style="display:flex; flex-direction:column; gap:16px;">
+            <input type="hidden" id="editStudentId">
+            <div class="filter-input-group">
+                <label>Enrollment Number</label>
+                <input type="text" id="editEnroll" required pattern="[0-9]{12}" title="12-digit enrollment number">
+            </div>
+            <div class="filter-input-group">
+                <label>Student Full Name</label>
+                <input type="text" id="editName" required>
+            </div>
+            <div style="display:flex; gap:12px;">
+                <div class="filter-input-group">
+                    <label>Semester</label>
+                    <select id="editSem">
+                        <option value="Sem 3">Semester 3</option>
+                        <option value="Sem 5">Semester 5</option>
+                    </select>
+                </div>
+                <div class="filter-input-group">
+                    <label>Class</label>
+                    <select id="editClass">
+                        <option value="CO31">CO31</option>
+                        <option value="CO32">CO32</option>
+                        <option value="CO33">CO33</option>
+                        <option value="CO34">CO34</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display:flex; gap:12px;">
+                <div class="filter-input-group">
+                    <label>Batch</label>
+                    <input type="text" id="editBatch" required placeholder="e.g. CO311, CO321">
+                </div>
+                <div class="filter-input-group">
+                    <label>Tutorial Group</label>
+                    <select id="editTut">
+                        <option value="T1">Tutorial T1</option>
+                        <option value="T2">Tutorial T2</option>
+                        <option value="T3">Tutorial T3</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="att-modal-foot" style="margin-top:10px; padding:0; border:none;">
+                <button type="button" class="cancel-btn" onclick="closeEditStudentModal()">Cancel</button>
+                <button type="submit" class="primary-action-btn">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: DELETE CONFIRMATION -->
+<div class="modal-overlay" id="deleteConfirmModal">
+    <div class="modal-card" style="max-width: 440px; text-align: center; padding: 26px 22px;">
+        <div style="width: 54px; height: 54px; border-radius: 50%; background: rgba(239, 68, 68, 0.12); color: #ef4444; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px auto;">
+            <i data-lucide="alert-triangle" style="width: 28px; height: 28px;"></i>
+        </div>
+        <h3 style="font-size: 19px; font-weight: 700; margin-bottom: 6px; color: var(--text);">Delete Student Record?</h3>
+        <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 18px;">
+            Are you sure you want to permanently delete this student record? This will remove the student from the database and cannot be undone.
+        </p>
+
+        <!-- Student Summary Badge -->
+        <div style="background: var(--bg, #f8fafc); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 20px; text-align: left;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <span style="font-size: 12px; color: var(--text-muted);">Enrollment No:</span>
+                <strong style="font-size: 13px; font-family: monospace;" id="deleteConfirmEnroll">—</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <span style="font-size: 12px; color: var(--text-muted);">Student Name:</span>
+                <strong style="font-size: 13px;" id="deleteConfirmName">—</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: 12px; color: var(--text-muted);">Class / Batch:</span>
+                <span style="font-size: 12px; font-weight: 600;" id="deleteConfirmBatch">—</span>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <button type="button" class="cancel-btn" onclick="closeDeleteConfirmModal()" style="flex: 1; padding: 10px; border-radius: 8px; font-weight: 600;">Cancel</button>
+            <button type="button" id="btnExecuteDeleteMasterStudent" onclick="confirmDeleteMasterStudentAction()" style="flex: 1; padding: 10px; border-radius: 8px; font-weight: 600; background: #dc2626; color: #fff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <i data-lucide="trash-2" style="width: 16px; height: 16px;"></i> Delete Record
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modular Scripts -->
+<script src="js/supabase.js?v=delete_confirm_v1"></script>
+<script src="js/theme-engine.js"></script>
+<script src="js/string-nav.js"></script>
+<script src="js/students.js?v=delete_confirm_v1"></script>
+
+</body>
+</html>

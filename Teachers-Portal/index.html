@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Treva Ecosystem · Redirecting...</title>
+  <script src="Main_Page/js/supabase.js?v=root_v1"></script>
+  <script>
+    (function() {
+      try {
+        var sess = (typeof TrevaSession !== 'undefined') ? TrevaSession.load() : JSON.parse(localStorage.getItem('treva_teacher_session') || 'null');
+        if (sess && (sess.fullname || sess.username)) {
+          window.location.replace("Main_Page/index.html");
+        } else {
+          window.location.replace("temp_signinup/index1.html");
+        }
+      } catch(e) {
+        window.location.replace("temp_signinup/index1.html");
+      }
+    })();
+  </script>
+</head>
+<body style="background:#0f172a; color:#f8fafc; font-family:sans-serif; display:flex; align-items:center; justify-content:center; height:100vh; margin:0;">
+  <div style="text-align:center;">
+    <div style="font-size:32px; margin-bottom:12px;">⏳</div>
+    <div style="font-size:16px; font-weight:700;">Opening Treva Ecosystem...</div>
+  </div>
+</body>
+</html>

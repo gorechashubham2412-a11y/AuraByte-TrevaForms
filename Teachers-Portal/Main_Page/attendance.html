@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treva Ecosystem · Class Attendance Directory</title>
+    <!-- Google Fonts: Inter, Poppins, Plus Jakarta Sans, Playfair Display, Space Grotesk, Merriweather -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Modular CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/string-nav.css">
+    <link rel="stylesheet" href="css/modals.css">
+    <link rel="stylesheet" href="css/timetable.css">
+    <link rel="stylesheet" href="css/attendance.css">
+    <script>
+        (function() {
+            try {
+                var c = JSON.parse(localStorage.getItem('treva_portal_theme_config') || '{}');
+                if (c.preset) document.documentElement.classList.add('theme-' + c.preset.replace('_', '-'));
+                if (c.fontFamily) {
+                    var s = document.createElement('style');
+                    s.id = 'treva-font-override';
+                    s.textContent = 'body, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, span, a, td, th { font-family: ' + c.fontFamily + ' !important; }';
+                    document.head.appendChild(s);
+                }
+                if (c.fontSizeScale) {
+                    document.documentElement.style.fontSize = (16 * c.fontSizeScale) + 'px';
+                }
+            } catch(e) {}
+        })();
+    </script>
+</head>
+<body>
+
+<div class="shell">
+
+    <!-- ========== SIDEBAR WITH STRING NAV ========== -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="sidebar-brand-icon"><i data-lucide="graduation-cap"></i></div>
+            <span class="sidebar-brand-name">Treva Ecosystem</span>
+        </div>
+
+        <div class="sidebar-college" onclick="window.location.href='index.html'">
+            <span class="college-dot"></span>
+            <span class="college-name">R.C. Technical Institute</span>
+            <i data-lucide="chevron-down" class="college-chevron"></i>
+        </div>
+
+        <!-- VERTICAL STRING NAV (ACTIVE = 3: ATTENDANCE) -->
+        <div class="string-nav-wrapper" id="stringNavWrapper" data-active-index="3">
+            <canvas id="stringCv"></canvas>
+            <div class="string-nav-list" id="stringNavList">
+                <button class="string-nav-btn" data-nav="0" data-tab="home" title="Home">
+                    <i data-lucide="house"></i> <span>Home</span>
+                </button>
+                <button class="string-nav-btn" data-nav="1" data-tab="myclass" title="My Class">
+                    <i data-lucide="users"></i> <span>My Class <span class="nav-sub">(Coord)</span></span>
+                </button>
+                <button class="string-nav-btn" data-nav="2" data-tab="timetable" title="Timetable">
+                    <i data-lucide="calendar"></i> <span>Timetable</span>
+                </button>
+                <button class="string-nav-btn active" data-nav="3" data-tab="attendance" title="Attendance">
+                    <i data-lucide="clipboard-check"></i> <span>Attendance</span>
+                </button>
+                <button class="string-nav-btn" data-nav="4" data-tab="forms" title="Forms">
+                    <i data-lucide="file-text"></i> <span>Forms</span>
+                </button>
+                <button class="string-nav-btn" data-nav="5" data-tab="resources" title="Add Resources">
+                    <i data-lucide="plus-circle"></i> <span>Resources</span>
+                </button>
+                <button class="string-nav-btn" data-nav="6" data-tab="messages" title="Messages">
+                    <i data-lucide="message-circle"></i> <span>Messages</span>
+                    <span class="nav-badge">3</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="sidebar-cta">
+            <h4>Quick Export</h4>
+            <p>Download filtered<br>attendance records</p>
+            <button class="sidebar-cta-btn" onclick="exportAttendanceWatchCSV()">+ Export CSV</button>
+        </div>
+    </aside>
+
+    <!-- ========== MAIN CONTENT AREA ========== -->
+    <main class="main">
+
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <button class="top-icon-btn back-btn" onclick="goBackOneStep()" title="Back (Esc)" aria-label="Go Back">
+                <i data-lucide="arrow-left"></i>
+            </button>
+            <div class="search-box">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" id="topSearchInput" placeholder="Quick search subjects or classes…" oninput="handleTopSearch(this.value)">
+            </div>
+            <div class="top-bar-right">
+                <button class="top-icon-btn" title="Notifications">
+                    <i data-lucide="bell"></i>
+                    <span class="notif-dot"></span>
+                </button>
+                <button class="top-icon-btn" title="Messages">
+                    <i data-lucide="mail"></i>
+                </button>
+                <button class="top-icon-btn" title="Settings" onclick="window.location.href='settings.html'">
+                    <i data-lucide="settings"></i>
+                </button>
+                <div class="profile-wrap">
+                    <button class="profile-avatar" id="profBtn" onclick="openTeacherProfileModal()" title="View Teacher Profile & Credentials">SS</button>
+                    <div class="profile-dropdown" id="profDD">
+                        <button class="dd-item" onclick="openTeacherProfileModal()"><i data-lucide="user"></i> View Profile & Credentials</button>
+                        <button class="dd-item" onclick="window.location.href='index.html'"><i data-lucide="house"></i> Home Dashboard</button>
+                        <button class="dd-item" onclick="window.location.href='my_class.html'"><i data-lucide="users"></i> My Class (Coord)</button>
+                        <button class="dd-item" onclick="window.location.href='timetable.html'"><i data-lucide="calendar"></i> Teacher's Timetable</button>
+                        <button class="dd-item" onclick="window.location.href='settings.html'"><i data-lucide="palette"></i> Theme Settings</button>
+                        <div class="dd-divider"></div>
+                        <button class="dd-item logout" onclick="logoutTeacher()"><i data-lucide="log-out"></i> Logout (Sign Out)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ATTENDANCE DRILL-DOWN CONTAINER -->
+        <div class="att-flow-container" id="attFlowContainer">
+
+            <!-- HEADER & BREADCRUMB NAVIGATION -->
+            <div class="att-flow-header">
+                <div class="att-breadcrumb-nav" id="attBreadcrumbNav">
+                    <!-- Filled dynamically by attendance.js -->
+                </div>
+
+                <div class="att-flow-title-row">
+                    <div>
+                        <h1 id="attStepTitle">
+                            <i data-lucide="clipboard-check"></i>
+                            <span>Select Class</span>
+                        </h1>
+                        <p id="attStepSub">Choose an academic class to record or inspect attendance</p>
+                    </div>
+                    <span class="att-step-badge" id="attStepBadge">Step 1 of 4</span>
+                </div>
+            </div>
+
+            <!-- DYNAMIC STEP CONTENT AREA -->
+            <div id="attStepContent">
+                <!-- Cards grid dynamically rendered by attendance.js -->
+            </div>
+
+        </div><!-- /att-flow-container -->
+
+    </main>
+</div><!-- /shell -->
+
+<!-- =========================================================== -->
+<!-- MODAL: TAKE ATTENDANCE (FULL INTERACTIVE SHEET)             -->
+<!-- =========================================================== -->
+<div class="modal-overlay att-modal-overlay" id="attendanceModal" onkeydown="handleAttModalKeydown(event)">
+    <div class="modal-card att-modal-card">
+
+        <!-- Header -->
+        <div class="modal-head att-modal-head">
+            <div class="att-modal-title-group">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <i data-lucide="clipboard-check" style="width:22px;height:22px;color:var(--primary)"></i>
+                    <div>
+                        <h3 id="attSlotTitle">Take Attendance</h3>
+                        <p id="attSlotMeta" style="font-size:12px; color:var(--text-muted); margin:0; font-weight:500;"></p>
+                    </div>
+                </div>
+                <div class="att-date-pill">
+                    <i data-lucide="calendar"></i>
+                    <span id="attDateDisplay"></span>
+                </div>
+            </div>
+            <button class="modal-close-btn" onclick="closeAttendanceModal()"><i data-lucide="x"></i></button>
+        </div>
+
+        <!-- Stats bar -->
+        <!-- Stats bar -->
+        <div class="att-stats-wrap">
+            <div id="attStatsBar" class="att-stats-bar"><!-- filled by JS --></div>
+            <div class="att-pct-track"><div id="attPctBar" class="att-pct-fill" style="width:0%"></div></div>
+        </div>
+
+        <!-- Scrollable Modal Body -->
+        <div class="att-modal-body-scroll">
+
+            <!-- Toolbar: View Switcher, Filter Tabs & Bulk Actions -->
+            <div class="att-toolbar-row">
+                <!-- Segmented Control for Views -->
+                <div class="att-segmented-control">
+                    <button type="button" class="att-segment-btn active" id="attSegGrid" onclick="setAttendanceViewMode('grid')">
+                        <i data-lucide="layout-grid"></i> Roll Grid
+                    </button>
+                    <button type="button" class="att-segment-btn" id="attSegList" onclick="setAttendanceViewMode('list')">
+                        <i data-lucide="list"></i> Detailed List
+                    </button>
+                    <button type="button" class="att-segment-btn" id="attSegCaller" onclick="setAttendanceViewMode('caller')">
+                        <i data-lucide="volume-2"></i> Roll Call (1-by-1)
+                    </button>
+                </div>
+
+                <!-- Status Filter Pills -->
+                <div class="att-filter-pills-group">
+                    <button type="button" class="att-filter-pill active" id="attFilterAll" onclick="setAttendanceStatusFilter('all')">
+                        All <span id="attCountAll">0</span>
+                    </button>
+                    <button type="button" class="att-filter-pill is-present" id="attFilterPresent" onclick="setAttendanceStatusFilter('present')">
+                        <i data-lucide="check"></i> Present <span id="attCountPresent">0</span>
+                    </button>
+                    <button type="button" class="att-filter-pill is-absent" id="attFilterAbsent" onclick="setAttendanceStatusFilter('absent')">
+                        <i data-lucide="x"></i> Absent <span id="attCountAbsent">0</span>
+                    </button>
+                </div>
+
+                <!-- Quick Bulk Actions -->
+                <div class="att-quick-actions-group">
+                    <button type="button" class="att-btn-pill all-present" onclick="markAllPresent()" title="Mark all students present">
+                        <i data-lucide="check-check"></i> All Present
+                    </button>
+                    <button type="button" class="att-btn-pill all-absent" onclick="markAllAbsent()" title="Mark all students absent">
+                        <i data-lucide="x-circle"></i> All Absent
+                    </button>
+                    <button type="button" class="att-btn-pill invert" onclick="invertAttendance()" title="Invert attendance">
+                        <i data-lucide="arrow-left-right"></i> Invert
+                    </button>
+                </div>
+            </div>
+
+            <!-- Super-Fast Absent Entry Input Bar -->
+            <div class="att-quick-absent-row">
+                <div class="att-quick-absent-wrap">
+                    <span class="att-quick-absent-badge"><i data-lucide="zap"></i> Quick Absent</span>
+                    <input type="text" id="attQuickAbsentInput"
+                        placeholder="Type absent roll numbers separated by commas (e.g. 14, 33, 64) & hit Enter..."
+                        onkeydown="handleQuickAbsentKeydown(event)"
+                        autocomplete="off">
+                    <button type="button" class="att-quick-absent-btn" onclick="applyQuickAbsentInput()">
+                        Mark Absent
+                    </button>
+                </div>
+                <div class="att-search-compact-wrap">
+                    <i data-lucide="search"></i>
+                    <input type="text" id="attSearchInput"
+                        placeholder="Search student or roll no…"
+                        oninput="handleAttSearch(this.value)"
+                        autocomplete="off">
+                </div>
+            </div>
+
+            <!-- Absentee Chips Tray -->
+            <div class="att-absent-tray empty" id="attAbsentTray">
+                <span class="att-absent-tray-label"><i data-lucide="user-x"></i> Current Absentees:</span>
+                <div class="att-absent-chips" id="attAbsentChips">
+                    <!-- Dynamically populated: [ ✕ #33 DARJI A. ] -->
+                </div>
+            </div>
+
+            <!-- VIEW 1: Roll-Number Cards Grid (Default View) -->
+            <div class="att-content-view att-grid-view" id="attGridView">
+                <div class="att-cards-matrix" id="attCardsMatrix">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- VIEW 2: Traditional Table List View -->
+            <div class="att-content-view att-table-view" id="attTableView" style="display:none;">
+                <div class="att-table-wrap">
+                    <table class="att-table">
+                        <thead>
+                            <tr>
+                                <th style="width:48px">Roll</th>
+                                <th>Enrollment No.</th>
+                                <th>Student Name</th>
+                                <th style="width:90px">Batch</th>
+                                <th style="width:130px; text-align:center">Attendance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attStudentList">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- VIEW 3: Roll Call Mode (1-by-1 Speed Caller) -->
+            <div class="att-content-view att-caller-view" id="attCallerView" style="display:none;">
+                <div class="att-caller-card" id="attCallerCard">
+                    <!-- Populated dynamically by JS -->
+                </div>
+            </div>
+
+        </div><!-- /att-modal-body-scroll -->
+
+        <!-- Footer -->
+        <div class="att-modal-foot">
+            <div class="att-foot-summary" id="attFootSummary">
+                <!-- Dynamically populated e.g. "68 Present · 7 Absent (90.7%)" -->
+            </div>
+            <div style="display:flex; gap:10px; margin-left:auto;">
+                <button class="cancel-btn" onclick="closeAttendanceModal()">Cancel</button>
+                <button class="primary-action-btn" onclick="saveAttendance()">
+                    <i data-lucide="save"></i> Save Attendance
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modular Scripts -->
+<script src="js/supabase.js?v=att_v3"></script>
+<script src="js/theme-engine.js"></script>
+<script src="js/string-nav.js"></script>
+<script src="js/attendance.js"></script>
+<script src="js/teacher-profile.js"></script>
+
+</body>
+</html>

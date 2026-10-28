@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Teacher Command Portal | Aura Bytes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Interactive Canvas Background -->
+  <canvas id="bgCanvas" class="bg-canvas"></canvas>
+  <div id="cursorGlow" class="cursor-glow"></div>
+
+  <main class="app-shell" id="appShell">
+
+    <!-- Main_Page Interactive Login Scene -->
+    <section class="login-scene" id="loginScene">
+      <div class="ambient ambient-one"></div>
+      <div class="ambient ambient-two"></div>
+      <div class="ambient ambient-three"></div>
+
+      <!-- Floating Academic Symbols in Parallax -->
+      <div class="math-floating" aria-hidden="true">
+        <span class="math-item" style="top: 15%; left: 8%; animation-delay: 0s;">∑</span>
+        <span class="math-item" style="top: 70%; left: 12%; animation-delay: 2s;">π</span>
+        <span class="math-item" style="top: 25%; left: 85%; animation-delay: 1s;">ƒ(x)</span>
+        <span class="math-item" style="top: 78%; left: 88%; animation-delay: 3s;">∫</span>
+        <span class="math-item" style="top: 45%; left: 4%; animation-delay: 1.5s;">E=mc²</span>
+        <span class="math-item" style="top: 85%; left: 45%; animation-delay: 2.5s;">∞</span>
+      </div>
+
+      <header class="top-nav">
+        <div class="brand-corner">
+          <span class="brand-name">Aurabytes</span>
+        </div>
+
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch theme" aria-pressed="false">
+          <span class="theme-icon sun" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          </span>
+          <span class="theme-track"><span class="theme-knob"></span></span>
+          <span class="theme-icon moon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </span>
+        </button>
+      </header>
+
+      <!-- Motion Branding Panel -->
+      <div class="motion-panel" id="motionPanel">
+        <div class="panel-lines" aria-hidden="true"></div>
+        <div class="orb orb-a" aria-hidden="true"></div>
+        <div class="orb orb-b" aria-hidden="true"></div>
+        <div class="orb orb-c" aria-hidden="true"></div>
+
+        <div class="motion-copy">
+          <div class="badge-pill">
+            <span class="badge-dot"></span>
+            <span>AURABYTES FACULTY WORKSPACE</span>
+          </div>
+          <h2 id="panelTitle">Teacher's Portal</h2>
+          <p id="panelText">Your unified command center for attendance, marks, quizzes, and class management.</p>
+
+          <div class="feature-chips">
+            <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Instant Attendance</span>
+            <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg> Class Forms</span>
+            <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg> Batch Coordination</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main_Page Form Layer -->
+      <div class="form-layer">
+        <div class="form-panel" id="formPanel">
+          <div class="form-heading">
+            <span class="eyebrow" id="formEyebrow">AURABYTES FACULTY</span>
+            <h1 id="formTitle" class="big-portal-title">Teacher's Portal</h1>
+            <p id="formSubtitle">Sign in to access your teacher command center.</p>
+          </div>
+
+          <!-- Mode Switcher Tabs -->
+          <div class="mode-tabs" id="modeTabsWrap" aria-label="Authentication Mode">
+            <button type="button" class="tab-btn active" id="loginTab">Sign In</button>
+            <button type="button" class="tab-btn" id="createTab">Create Account</button>
+            <span class="tab-indicator"></span>
+          </div>
+
+          <!-- ACTIVE PERSISTENT SESSION RESUME CARD (ONE-TIME LOGIN) -->
+          <div class="active-session-card" id="activeSessionCard" style="display: none;">
+            <div class="active-sess-avatar" id="activeSessAvatar">SP</div>
+            <div class="active-sess-info">
+              <span class="active-sess-badge">Persistent Session Active</span>
+              <h3 id="activeSessName">Prof. Teacher</h3>
+              <p id="activeSessRole">Faculty Member</p>
+            </div>
+            <div class="active-sess-actions">
+              <button type="button" class="primary-button" id="btnResumeWorkspace">
+                <span>Continue to Dashboard</span>
+                <span class="button-arrow">→</span>
+              </button>
+              <button type="button" class="link-button" id="btnSwitchAccount" style="color:var(--text-muted); font-size:13px; text-decoration:underline;">
+                Sign in as a different teacher
+              </button>
+            </div>
+          </div>
+
+          <form id="authForm" novalidate autocomplete="on">
+            <!-- COLLEGE (Create Mode) -->
+            <div class="field create-field">
+              <label for="college">College Name <small class="req">REQUIRED</small></label>
+              <div class="input-wrapper">
+                <span class="input-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 7v14M21 7v14M6 21V11M10 21V11M14 21V11M18 21V11M12 3L2 7h20L12 3z"/></svg>
+                </span>
+                <select id="college" name="college" class="select-input">
+                  <option value="" disabled selected>Select your college</option>
+                  <option value="college1">R.C. Technical Institute</option>
+                </select>
+              </div>
+              <span class="field-error" id="collegeError"></span>
+            </div>
+
+            <!-- DEPARTMENT (Create Mode) -->
+            <div class="field create-field">
+              <label for="department">Department <small class="req">REQUIRED</small></label>
+              <div class="input-wrapper">
+                <span class="input-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                </span>
+                <select id="department" name="department" class="select-input">
+                  <option value="" disabled selected>Select department</option>
+                  <option value="computer">Computer Engineering</option>
+                  <option value="it">Information Technology</option>
+                  <option value="mechanical">Mechanical Engineering</option>
+                  <option value="civil">Civil Engineering</option>
+                  <option value="electrical">Electrical Engineering</option>
+                </select>
+              </div>
+              <span class="field-error" id="departmentError"></span>
+            </div>
+
+            <!-- FULL NAME (Create Mode) -->
+            <div class="field create-field">
+              <label for="name">Teacher Name <small class="req">REQUIRED</small></label>
+              <div class="input-wrapper">
+                <span class="input-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </span>
+                <select id="name" name="name" class="select-input">
+                  <option value="" disabled selected>— Select your name —</option>
+                  <option value="Avani Patel">Avani Patel</option>
+                  <option value="Bharti Mulchandani">Bharti Mulchandani</option>
+                  <option value="Bhumika Chauhan">Bhumika Chauhan</option>
+                  <option value="Dhaval Patel">Dhaval Patel</option>
+                  <option value="Hardik Talsania">Hardik Talsania</option>
+                  <option value="Hemlata Katapara">Hemlata Katapara</option>
+                  <option value="Jaimin Suthar">Jaimin Suthar</option>
+                  <option value="Jay Suthariya">Jay Suthariya</option>
+                  <option value="Juhi Kaneria">Juhi Kaneria</option>
+                  <option value="Mahindra Solanki">Mahindra Solanki</option>
+                  <option value="Nilay Patel">Nilay Patel</option>
+                  <option value="Pallavi Modh">Pallavi Modh</option>
+                  <option value="RPV">Rajeshree Vasava</option>
+                  <option value="Rutvi Sheth">Rutvi Sheth</option>
+                  <option value="Sachin Shah">Sachin Shah</option>
+                  <option value="Soman Modi">Soman Modi</option>
+                  <option value="Tejas Mehta">Tejas Mehta</option>
+                  <option value="Vikas Budhdhdev">Vikas Budhdhdev</option>
+                </select>
+              </div>
+              <span class="field-error" id="nameError"></span>
+            </div>
+
+            <!-- USERNAME -->
+            <div class="field">
+              <label for="userId" id="idLabel">Username <small class="req login-hidden">REQUIRED</small></label>
+              <div class="input-wrapper">
+                <span class="input-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M21 2l-9.6 9.6"/><path d="M15.5 7.5l3 3"/></svg>
+                </span>
+                <input id="userId" name="userId" type="text" inputmode="text" autocomplete="username"
+                       placeholder="Enter username or full name" maxlength="48" required />
+              </div>
+              <span class="field-error" id="idError"></span>
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="field">
+              <div class="label-row">
+                <label for="password" id="passwordLabel">Password</label>
+                <button type="button" class="text-button" id="passwordToggle">Show</button>
+              </div>
+              <div class="input-wrapper">
+                <span class="input-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </span>
+                <input id="password" name="password" type="password" autocomplete="current-password"
+                       placeholder="Enter password" maxlength="72" required />
+              </div>
+              <span class="field-error" id="passwordError"></span>
+            </div>
+
+            <!-- CONFIRM PASSWORD (Create Mode) -->
+            <div class="field create-field">
+              <div class="label-row">
+                <label for="confirmPassword">Confirm Password <small class="req">REQUIRED</small></label>
+                <button type="button" class="text-button" id="confirmPasswordToggle">Show</button>
+              </div>
+              <div class="input-wrapper">
+                <span class="input-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </span>
+                <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password"
+                       placeholder="Confirm your password" maxlength="72" />
+              </div>
+              <span class="field-error" id="confirmPasswordError"></span>
+            </div>
+
+            <!-- CLASS COORDINATOR (Create Mode) -->
+            <div class="field create-field coordinator-field" id="coordinatorContainer">
+              <label class="coordinator-option" id="coordinatorLabel">
+                <input type="checkbox" id="isCoordinator" />
+                <span class="checkmark" aria-hidden="true"></span>
+                <span class="coordinator-text">
+                  <strong>Are you a Class Coordinator?</strong>
+                  <small class="coordinator-note">Select this if you manage a specific class batch</small>
+                </span>
+              </label>
+            </div>
+
+            <!-- COORDINATING CLASS (Create Mode, conditional) -->
+            <div id="batchYearContainer" class="field create-field conditional-field" style="display: none;">
+              <label for="coordinatorClass">Coordinating Class <small class="req">REQUIRED</small></label>
+              <div class="input-wrapper">
+                <span class="input-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                </span>
+                <select id="coordinatorClass" name="coordinatorClass" class="select-input">
+                  <option value="" disabled selected>— Select class you coordinate —</option>
+                  <option value="CO11">CO11 (Semester 1)</option>
+                  <option value="CO12">CO12 (Semester 1)</option>
+                  <option value="CO13">CO13 (Semester 1)</option>
+                  <option value="CO31">CO31 (Semester 3)</option>
+                  <option value="CO32">CO32 (Semester 3)</option>
+                  <option value="CO33">CO33 (Semester 3)</option>
+                  <option value="CO34">CO34 (Semester 3)</option>
+                  <option value="CO51">CO51 (Semester 5)</option>
+                  <option value="CO52">CO52 (Semester 5)</option>
+                </select>
+              </div>
+              <span class="field-error" id="coordinatorClassError"></span>
+            </div>
+
+            <!-- REMEMBER ME -->
+            <label class="remember" id="rememberContainer">
+              <input id="remember" name="remember" type="checkbox" />
+              <span class="checkmark" aria-hidden="true"></span>
+              <span>Keep me logged in on this device</span>
+            </label>
+
+            <!-- SUBMIT BUTTON -->
+            <button class="primary-button" id="submitButton" type="submit" aria-busy="false">
+              <span class="button-loader" aria-hidden="true"></span>
+              <span id="submitText">Sign In</span>
+              <span class="button-arrow" aria-hidden="true">→</span>
+            </button>
+
+            <!-- SWITCH MODE TEXT -->
+            <p class="auth-switch">
+              <span id="switchPrompt">Need a teacher account?</span>
+              <button type="button" class="link-button" id="switchMode">Create account</button>
+            </p>
+          </form>
+
+          <p class="status-message" id="statusMessage" role="status" aria-live="polite"></p>
+
+          <footer class="minimal-footer">
+            <a href="#" id="privacyLink">Privacy Policy</a>
+            <span>•</span>
+            <span>Treva Ecosystem</span>
+          </footer>
+        </div>
+      </div>
+
+      <!-- Plane Landing Transition -->
+      <div class="plane" id="paperPlane" aria-hidden="true">
+        <svg viewBox="0 0 320 220" role="presentation">
+          <path class="plane-shadow" d="M27 190 294 35 181 206 137 135Z"></path>
+          <path class="plane-body" d="M27 190 294 35 181 206 137 135Z"></path>
+          <path class="plane-fold" d="M27 190 137 135 294 35 181 206Z"></path>
+          <path class="plane-detail" d="M137 135 181 206 167 126Z"></path>
+        </svg>
+      </div>
+
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script src="../Main_Page/js/supabase.js?v=coord_auth_v1"></script>
+  <script src="script.js?v=coord_auth_v1"></script>
+</body>
+</html>

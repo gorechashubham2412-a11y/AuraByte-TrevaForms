@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="39e547ed-3d54-4cca-8dc6-0b9cc31f0ec4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Teachers-Portal/Main_Page/css/my-class.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Teachers-Portal/Main_Page/js/dashboard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Teachers-Portal/Main_Page/js/my-class.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Teachers-Portal/Main_Page/js/string-nav.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Teachers-Portal/Main_Page/js/supabase.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Feedbacker.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/analytics.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/css/analytics.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/css/dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/Teachers-Portal/Main_Page/css/dashboard.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/Teachers-Portal/Main_Page/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/css/modals.css" beforeDir="false" afterPath="$PROJECT_DIR$/Teachers-Portal/Main_Page/css/modals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/css/my-class.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/css/settings.css" beforeDir="false" afterPath="$PROJECT_DIR$/Teachers-Portal/Main_Page/css/settings.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/css/string-nav.css" beforeDir="false" afterPath="$PROJECT_DIR$/Teachers-Portal/Main_Page/css/string-nav.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/css/students.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/css/themes.css" beforeDir="false" afterPath="$PROJECT_DIR$/Teachers-Portal/Main_Page/css/themes.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Teachers-Portal/Main_Page/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/js/analytics.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/js/dashboard.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/js/my-class.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/js/settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/Teachers-Portal/Main_Page/js/settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/js/string-nav.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/js/students.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/js/supabase.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/js/theme-engine.js" beforeDir="false" afterPath="$PROJECT_DIR$/Teachers-Portal/Main_Page/js/theme-engine.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/my_class.html" beforeDir="false" afterPath="$PROJECT_DIR$/Teachers-Portal/Main_Page/my_class.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/Teachers-Portal/Main_Page/settings.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main_Page/students.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp_signinup/.env" beforeDir="false" afterPath="$PROJECT_DIR$/Teachers-Portal/temp_signinup/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp_signinup/index1.html" beforeDir="false" afterPath="$PROJECT_DIR$/Teachers-Portal/temp_signinup/index1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp_signinup/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/Teachers-Portal/temp_signinup/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp_signinup/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/Teachers-Portal/temp_signinup/style.css" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3Kp3S5FbCDUvs1cm0fynPuzg6IL" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JavaScript Debug.attendance.html.executor": "Run",
+    "JavaScript Debug.index.html.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.jshint": "true",
+    "node.js.selected.package.jshint": "",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.keymap"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\shubh\OneDrive\Desktop\Folder\Feedbacker\Teachers-Portal" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JavaScript Debug.index.html">
+    <configuration name="attendance.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/Feedbacker/Main_Page/attendance.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/Feedbacker/Teachers-Portal/index.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.index.html" />
+        <item itemvalue="JavaScript Debug.attendance.html" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-6fa658e1df1a-5bd6d13a2a75-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-262.8665.369" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="39e547ed-3d54-4cca-8dc6-0b9cc31f0ec4" name="Changes" comment="" />
+      <created>1792240693724</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1792240693724</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

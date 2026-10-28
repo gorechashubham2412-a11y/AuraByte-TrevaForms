@@ -1,0 +1,722 @@
+/* ==========================================================================
+   MODALS, TABLES, FORMS & BADGES
+   ========================================================================== */
+
+/* --- Generic Modal Dialogs & Forms --- */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-overlay.open {
+    display: flex;
+    animation: fadeIn 0.2s ease;
+}
+
+.modal-card {
+    background: #fff;
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 540px;
+    padding: 28px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.modal-head h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.15s;
+}
+
+.modal-close-btn:hover {
+    background: var(--bg);
+    color: var(--text);
+}
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    height: 42px;
+    padding: 0 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xs);
+    font-size: 13.5px;
+    font-family: inherit;
+    outline: none;
+    background: #fff;
+    color: var(--text);
+    transition: border-color 0.18s;
+}
+
+.form-group textarea {
+    height: 75px;
+    padding: 10px 14px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(27,94,59,0.08);
+}
+
+.form-row {
+    display: flex;
+    gap: 14px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.modal-foot {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.cancel-btn {
+    padding: 10px 18px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xs);
+    font-size: 13.5px;
+    font-weight: 600;
+    font-family: inherit;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.cancel-btn:hover {
+    background: var(--border-light);
+}
+
+/* --- Data Tables & Badges --- */
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.custom-table thead th {
+    padding: 12px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+.custom-table tbody tr {
+    transition: background 0.15s;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.custom-table tbody tr:hover {
+    background: var(--surface-subtle);
+}
+
+.custom-table tbody td {
+    padding: 14px;
+    font-size: 13.5px;
+    color: var(--text);
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/* Chips & Badges */
+.batch-chip {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 50px;
+    background: #EFF6FF;
+    color: #2563EB;
+    display: inline-block;
+}
+
+.tut-chip {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 50px;
+    background: #F3E8FF;
+    color: #7E22CE;
+    display: inline-block;
+}
+
+.status-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.status-badge.good { background: #DCFCE7; color: #15803D; }
+.status-badge.warn { background: #FEF3C7; color: #B45309; }
+.status-badge.alert { background: #FEE2E2; color: #B91C1C; }
+
+/* Table Action Buttons */
+.table-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.action-icon-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.action-icon-btn:hover {
+    background: var(--surface-active);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.action-icon-btn.danger:hover {
+    background: #FEE2E2;
+    border-color: #EF4444;
+    color: #EF4444;
+}
+
+.action-icon-btn i {
+    width: 15px;
+    height: 15px;
+}
+
+/* --- Teacher Profile Dossier Modal --- */
+.teacher-profile-overlay {
+    z-index: 100000;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.teacher-profile-card {
+    background: var(--card, #ffffff);
+    color: var(--text, #0f172a);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 620px;
+    box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--border);
+    position: relative;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: zoomIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.96) translateY(12px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.tprof-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface, #f8fafc);
+}
+
+.tprof-identity {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.tprof-avatar-wrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.tprof-avatar {
+    width: 62px;
+    height: 62px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #0284c7, #38bdf8);
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px -4px rgba(2, 132, 199, 0.45);
+    letter-spacing: -0.02em;
+}
+
+.tprof-online-dot {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #10b981;
+    border: 3px solid var(--card, #ffffff);
+}
+
+.tprof-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.tprof-name-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.tprof-name {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.tprof-role-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.tprof-role-badge.coordinator {
+    background: #fef3c7;
+    color: #b45309;
+    border: 1px solid #fde68a;
+}
+
+.tprof-role-badge.faculty {
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+}
+
+.tprof-sub-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.tprof-username {
+    font-weight: 600;
+    color: var(--primary, #0284c7);
+}
+
+.tprof-dot-sep {
+    opacity: 0.5;
+}
+
+.tprof-close-btn {
+    background: var(--bg, #f1f5f9);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    transition: all 0.18s ease;
+}
+
+.tprof-close-btn:hover {
+    background: var(--border);
+    color: var(--text);
+}
+
+/* Modal Body */
+.tprof-body {
+    padding: 24px 28px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tprof-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tprof-section-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tprof-section-title svg {
+    width: 16px;
+    height: 16px;
+    color: var(--primary);
+}
+
+.tprof-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+@media (max-width: 580px) {
+    .tprof-grid { grid-template-columns: 1fr; }
+}
+
+.tprof-info-box {
+    background: var(--surface, #f8fafc);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.tprof-info-lbl {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.tprof-info-val {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+}
+
+.tprof-coord-pill {
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+}
+
+.tprof-coord-pill.active {
+    background: #dbeafe;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+}
+
+.tprof-coord-pill.none {
+    background: var(--bg);
+    color: var(--text-muted);
+}
+
+/* Security / Credentials Card */
+.tprof-credential-box {
+    background: var(--surface, #f8fafc);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.tprof-cred-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.tprof-cred-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.tprof-cred-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.tprof-password-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tprof-password-text {
+    font-family: monospace;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--text);
+}
+
+.tprof-password-text.revealed {
+    letter-spacing: 0.02em;
+    font-size: 15px;
+    color: #0284c7;
+    background: rgba(2, 132, 199, 0.08);
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+.tprof-password-badge {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--text-muted);
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+.tprof-cred-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tprof-btn-sec {
+    background: var(--card, #ffffff);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 7px 12px;
+    border-radius: 9px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.16s ease;
+}
+
+.tprof-btn-sec:hover {
+    background: var(--bg);
+    border-color: var(--text-muted);
+}
+
+.tprof-btn-sec svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Password change drawer */
+.tprof-change-pass-wrap {
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+}
+
+.tprof-change-pass-box {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tprof-change-pass-box label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.tprof-input-action-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tprof-input-action-row input {
+    flex: 1;
+    height: 40px;
+    padding: 0 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 13.5px;
+    background: var(--card);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.18s;
+}
+
+.tprof-input-action-row input:focus {
+    border-color: var(--primary);
+}
+
+.tprof-msg {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* One-time login banner */
+.tprof-session-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 14px;
+    padding: 14px 18px;
+}
+
+.tprof-session-banner-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tprof-session-banner-left svg {
+    width: 22px;
+    height: 22px;
+    color: #10b981;
+    flex-shrink: 0;
+}
+
+.tprof-session-banner-left strong {
+    font-size: 13.5px;
+    color: var(--text);
+    display: block;
+    margin-bottom: 2px;
+}
+
+.tprof-session-banner-left p {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.35;
+}
+
+.tprof-session-pill {
+    background: #10b981;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+/* Modal Footer */
+.tprof-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 28px;
+    border-top: 1px solid var(--border);
+    background: var(--surface, #f8fafc);
+}
+
+.tprof-logout-btn {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: #dc2626;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.16s ease;
+}
+
+.tprof-logout-btn:hover {
+    background: #dc2626;
+    color: #ffffff;
+    border-color: #dc2626;
+}
+
+.tprof-logout-btn svg {
+    width: 15px;
+    height: 15px;
+}
